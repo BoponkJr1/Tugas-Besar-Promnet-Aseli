@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produk - Kriuk Kita</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/produk/produk.css">
 </head>
 <body>
     <!-- Navbar -->
@@ -41,7 +42,7 @@
     </nav>
 
     <!-- Header Section -->
-    <section style="padding-top: 100px; padding-bottom: 40px; background: linear-gradient(135deg, #FEF3E2 0%, #FFE8CC 100%);">
+    <section class="page-header">
         <div class="container text-center">
             <h1 class="mb-3">Produk Kriuk Kita</h1>
             <p class="lead">Pilih camilan favorit Anda dari koleksi kami</p>
@@ -75,7 +76,7 @@
                 <p class="mt-3">Memuat produk...</p>
             </div>
             <div id="productsGrid" class="row g-4" style="display: none;">
-                <!-- Products will be loaded here -->
+                <!-- Products will be loaded here using Bootstrap Cards -->
             </div>
             <div id="noProducts" class="text-center py-5" style="display: none;">
                 <p class="text-muted">Tidak ada produk ditemukan.</p>
@@ -94,132 +95,8 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/auth.js"></script>
-    <script src="../js/app.js"></script>
-    <script>
-        let allProducts = [];
-        let currentCategory = 'all';
-
-        // Load products from JSON
-        async function loadProducts() {
-            const loadingIndicator = document.getElementById('loadingIndicator');
-            const productsGrid = document.getElementById('productsGrid');
-            const noProducts = document.getElementById('noProducts');
-
-            try {
-                loadingIndicator.style.display = 'block';
-                productsGrid.style.display = 'none';
-                noProducts.style.display = 'none';
-
-                const response = await fetch('../data/products.json');
-                const data = await response.json();
-                allProducts = data.products;
-
-                loadingIndicator.style.display = 'none';
-                displayProducts(allProducts);
-            } catch (error) {
-                console.error('Error loading products:', error);
-                loadingIndicator.innerHTML = '<p class="text-danger">Gagal memuat produk. Silakan refresh halaman.</p>';
-            }
-        }
-
-        // Display products
-        function displayProducts(products) {
-            const productsGrid = document.getElementById('productsGrid');
-            const noProducts = document.getElementById('noProducts');
-
-            if (products.length === 0) {
-                productsGrid.style.display = 'none';
-                noProducts.style.display = 'block';
-                return;
-            }
-
-            productsGrid.style.display = 'flex';
-            noProducts.style.display = 'none';
-
-            productsGrid.innerHTML = products.map(product => `
-                <div class="col-sm-6 col-md-4 col-lg-3">
-                    <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                        <div class="p-3">
-                            <h5 class="product-title">${product.name}</h5>
-                            <p class="product-desc">${product.description}</p>
-                            <p class="product-price">Rp ${product.price.toLocaleString('id-ID')}</p>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge bg-warning text-dark">⭐ ${product.rating}</span>
-                                <span class="text-muted small">Stok: ${product.stock}</span>
-                            </div>
-                            <button class="btn btn-orange w-100" onclick="addToCart(${product.id})">
-                                🛒 Tambah ke Keranjang
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Filter products by category
-        function filterProducts(category) {
-            currentCategory = category;
-            const filtered = category === 'all' 
-                ? allProducts 
-                : allProducts.filter(p => p.category === category);
-            
-            displayProducts(filtered);
-
-            // Update active button
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.category === category) {
-                    btn.classList.add('active');
-                }
-            });
-        }
-
-        // Add to cart
-        function addToCart(productId) {
-            const product = allProducts.find(p => p.id === productId);
-            if (!product) return;
-
-            // Check if user is logged in
-            if (!isLoggedIn()) {
-                alert('Silakan login terlebih dahulu untuk menambah produk ke keranjang!');
-                window.location.href = '../login.html';
-                return;
-            }
-
-            // Get cart from localStorage
-            let cart = JSON.parse(localStorage.getItem('kriukKitaCart') || '[]');
-            
-            // Check if product already in cart
-            const existingItem = cart.find(item => item.id === productId);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ ...product, quantity: 1 });
-            }
-
-            // Save cart
-            localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
-            
-            // Show success message
-            alert(`${product.name} berhasil ditambahkan ke keranjang!`);
-            
-            // Update cart badge if exists
-            updateCartBadge();
-        }
-
-        // Initialize filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterProducts(btn.dataset.category);
-            });
-        });
-
-        // Load products on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts();
-        });
-    </script>
+    <script src="../js/global/auth.js"></script>
+    <script src="../js/global/app.js"></script>
+    <script src="../js/produk/produk.js"></script>
 </body>
 </html>

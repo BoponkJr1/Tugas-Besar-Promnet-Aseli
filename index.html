@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kriuk Kita - Camilan Kriuk Untuk Setiap Momen</title>
+    <title>Food Court</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,7 +13,7 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index.html">
                 <span class="brand-icon">🔥</span>
-                <span class="brand-text ms-2">Kriuk Kita</span>
+                <span class="brand-text ms-2">Food Court</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -164,88 +164,3 @@
     </script>
 </body>
 </html>
-
-<!-- 
-STRUKTUR FOLDER LENGKAP:
-========================
-
-Kriuk_Kita/
-│
-├── index.html               ← Homepage (file ini)
-├── login.html               ← Halaman Login
-│
-├── pages/                   ← Folder untuk halaman lain
-│   ├── produk.html         ← Halaman Produk
-│   ├── keranjang.html      ← Halaman Keranjang
-│   ├── kontak.html         ← Halaman Kontak
-│   └── admin.html          ← Halaman Admin (CRUD)
-│
-├── assets/                  ← Folder untuk gambar
-│   ├── logo-kriuk.png      
-│   ├── about-image.jpg
-│   └── product-images/     ← Subfolder untuk gambar produk
-│       ├── keripik1.jpg
-│       ├── keripik2.jpg
-│       └── ...
-│
-├── css/                     ← Folder untuk CSS
-│   ├── style.css           ← CSS utama
-│   └── bootstrap.min.css   ← Bootstrap (dari CDN)
-│
-├── js/                      ← Folder untuk JavaScript
-│   ├── auth.js             ← Authentication & Google Login
-│   ├── app.js              ← Main app logic
-│   ├── cart.js             ← Cart functionality
-│   └── admin.js            ← Admin CRUD operations
-│
-└── data/                    ← Folder untuk data JSON
-    ├── products.json       ← Data produk (30+ items)
-    ├── categories.json     ← Data kategori
-    └── users.json          ← Data users (optional)
-
-PENJELASAN STRUKTUR:
-====================
-
-1. ROOT FILES (index.html & login.html)
-   - File utama yang langsung bisa diakses
-   - index.html = Homepage
-   - login.html = Halaman Login
-
-2. FOLDER PAGES/
-   - Berisi semua halaman HTML lainnya
-   - Semua file HTML selain index.html dan login.html
-   - Strukturnya rapi dan terorganisir
-
-3. FOLDER ASSETS/
-   - Berisi SEMUA file gambar
-   - Bisa dibuat subfolder untuk kategori gambar
-   - Contoh: product-images/, icons/, backgrounds/
-
-4. FOLDER CSS/
-   - Berisi semua file CSS
-   - style.css = CSS custom Anda
-   - bootstrap.min.css bisa dari CDN atau lokal
-
-5. FOLDER JS/
-   - Berisi semua file JavaScript
-   - Dipisah berdasarkan fungsi:
-     * auth.js = Login & proteksi halaman
-     * app.js = Fungsi umum & async
-     * cart.js = Keranjang belanja
-     * admin.js = CRUD operations
-
-6. FOLDER DATA/
-   - Berisi semua file JSON
-   - products.json = Data produk (min 30 items)
-   - Struktur JSON berlapis (nested objects/arrays)
-
-CARA MENGGUNAKAN:
-=================
-
-1. Buat folder dengan struktur di atas
-2. Copy file HTML ini sebagai index.html
-3. Buat file-file lainnya sesuai struktur
-4. Pastikan semua path relatif benar
-5. Test di localhost atau upload ke Bspace
-
--->

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kriuk Kita - Camilan Kriuk Untuk Setiap Momen</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="index.html">
+                <span class="brand-icon">🔥</span>
+                <span class="brand-text ms-2">Kriuk Kita</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/produk.html">Produk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/keranjang.html">Keranjang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/kontak.html">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-orange ms-lg-3" href="login.html" id="loginBtn">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h1 class="hero-title">Camilan <span class="text-orange">Kriuk</span><br>Untuk Setiap Momen</h1>
+                    <p class="hero-desc">Nikmati sensasi kriuk yang menggoda dengan camilan kering pilihan kami. Dibuat dari bahan berkualitas untuk pengalaman ngemil yang tak terlupakan!</p>
+                    <a href="pages/produk.html" class="btn btn-orange btn-lg">JELAJAHI PRODUK</a>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block text-center">
+                    <img src="assets/logo-kriuk.png" alt="Kriuk Kita Logo" class="hero-image" onerror="this.src='https://api.dicebear.com/7.x/shapes/svg?seed=kriuk&backgroundColor=FF6B35'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kategori Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center mb-5">Kategori Produk</h2>
+            <div class="row g-4">
+                <div class="col-6 col-md-3">
+                    <div class="category-card text-center">
+                        <div class="category-icon">🥔</div>
+                        <h5>Keripik</h5>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="category-card text-center">
+                        <div class="category-icon">🍝</div>
+                        <h5>Makaroni</h5>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="category-card text-center">
+                        <div class="category-icon">🦐</div>
+                        <h5>Kerupuk</h5>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="category-card text-center">
+                        <div class="category-icon">🥜</div>
+                        <h5>Kacang</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Produk Unggulan -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Produk Unggulan</h2>
+            <div class="row g-4" id="featuredProducts">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Kami -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="mb-4">Tentang Kriuk Kita</h2>
+                    <p class="mb-3">Kriuk Kita adalah produsen camilan kering berkualitas yang telah dipercaya oleh ribuan pelanggan di seluruh Indonesia.</p>
+                    <p class="mb-3">Kami menggunakan bahan-bahan pilihan dan proses produksi yang higienis untuk menghasilkan camilan yang tidak hanya lezat, tetapi juga aman untuk dikonsumsi.</p>
+                    <p>Dengan berbagai varian rasa dan jenis camilan, Kriuk Kita siap menemani setiap momen istimewa Anda!</p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="assets/about-image.jpg" alt="Tentang Kami" class="img-fluid rounded shadow" onerror="this.src='https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=600'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <div class="mb-3">🔥</div>
+            <h3 class="text-orange mb-2">Kriuk Kita</h3>
+            <p class="text-muted">Camilan kriuk untuk setiap momen</p>
+            <p class="text-muted mt-3">© 2024 Kriuk Kita. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Load featured products on home page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFeaturedProducts();
+        });
+
+        async function loadFeaturedProducts() {
+            try {
+                const response = await fetch('data/products.json');
+                const data = await response.json();
+                const featured = data.products.filter(p => p.featured).slice(0, 4);
+                
+                const container = document.getElementById('featuredProducts');
+                container.innerHTML = featured.map(product => `
+                    <div class="col-md-6 col-lg-3">
+                        <div class="product-card">
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                            <div class="p-3">
+                                <h5 class="product-title">${product.name}</h5>
+                                <p class="product-price">Rp ${product.price.toLocaleString('id-ID')}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-warning text-dark">⭐ ${product.rating}</span>
+                                    <span class="text-muted small">Stok: ${product.stock}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+    </script>
+</body>
+</html>
+
+<!-- 
+STRUKTUR FOLDER LENGKAP:
+========================
+
+Kriuk_Kita/
+│
+├── index.html               ← Homepage (file ini)
+├── login.html               ← Halaman Login
+│
+├── pages/                   ← Folder untuk halaman lain
+│   ├── produk.html         ← Halaman Produk
+│   ├── keranjang.html      ← Halaman Keranjang
+│   ├── kontak.html         ← Halaman Kontak
+│   └── admin.html          ← Halaman Admin (CRUD)
+│
+├── assets/                  ← Folder untuk gambar
+│   ├── logo-kriuk.png      
+│   ├── about-image.jpg
+│   └── product-images/     ← Subfolder untuk gambar produk
+│       ├── keripik1.jpg
+│       ├── keripik2.jpg
+│       └── ...
+│
+├── css/                     ← Folder untuk CSS
+│   ├── style.css           ← CSS utama
+│   └── bootstrap.min.css   ← Bootstrap (dari CDN)
+│
+├── js/                      ← Folder untuk JavaScript
+│   ├── auth.js             ← Authentication & Google Login
+│   ├── app.js              ← Main app logic
+│   ├── cart.js             ← Cart functionality
+│   └── admin.js            ← Admin CRUD operations
+│
+└── data/                    ← Folder untuk data JSON
+    ├── products.json       ← Data produk (30+ items)
+    ├── categories.json     ← Data kategori
+    └── users.json          ← Data users (optional)
+
+PENJELASAN STRUKTUR:
+====================
+
+1. ROOT FILES (index.html & login.html)
+   - File utama yang langsung bisa diakses
+   - index.html = Homepage
+   - login.html = Halaman Login
+
+2. FOLDER PAGES/
+   - Berisi semua halaman HTML lainnya
+   - Semua file HTML selain index.html dan login.html
+   - Strukturnya rapi dan terorganisir
+
+3. FOLDER ASSETS/
+   - Berisi SEMUA file gambar
+   - Bisa dibuat subfolder untuk kategori gambar
+   - Contoh: product-images/, icons/, backgrounds/
+
+4. FOLDER CSS/
+   - Berisi semua file CSS
+   - style.css = CSS custom Anda
+   - bootstrap.min.css bisa dari CDN atau lokal
+
+5. FOLDER JS/
+   - Berisi semua file JavaScript
+   - Dipisah berdasarkan fungsi:
+     * auth.js = Login & proteksi halaman
+     * app.js = Fungsi umum & async
+     * cart.js = Keranjang belanja
+     * admin.js = CRUD operations
+
+6. FOLDER DATA/
+   - Berisi semua file JSON
+   - products.json = Data produk (min 30 items)
+   - Struktur JSON berlapis (nested objects/arrays)
+
+CARA MENGGUNAKAN:
+=================
+
+1. Buat folder dengan struktur di atas
+2. Copy file HTML ini sebagai index.html
+3. Buat file-file lainnya sesuai struktur
+4. Pastikan semua path relatif benar
+5. Test di localhost atau upload ke Bspace
+
+-->

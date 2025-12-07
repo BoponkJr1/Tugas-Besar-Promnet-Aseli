@@ -1,0 +1,468 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Keripik Singkong Pedas Level 1",
+      "category": "keripik",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Keripik singkong renyah dengan bumbu pedas ringan, cocok untuk pemula",
+      "stock": 50,
+      "rating": 4.5,
+      "featured": true,
+      "variants": [
+        {"size": "100g", "price": 15000},
+        {"size": "250g", "price": 35000},
+        {"size": "500g", "price": 65000}
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Keripik Singkong Pedas Level 3",
+      "category": "keripik",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Keripik singkong dengan tingkat kepedasan sedang, bikin nagih",
+      "stock": 45,
+      "rating": 4.7,
+      "featured": false,
+      "variants": [
+        {"size": "100g", "price": 15000},
+        {"size": "250g", "price": 35000}
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Keripik Singkong Pedas Level 5",
+      "category": "keripik",
+      "price": 18000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Keripik singkong super pedas untuk pecinta tantangan ekstrem!",
+      "stock": 30,
+      "rating": 4.9,
+      "featured": true,
+      "variants": [
+        {"size": "100g", "price": 18000},
+        {"size": "250g", "price": 42000}
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Keripik Pisang Manis Original",
+      "category": "keripik",
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400",
+      "description": "Keripik pisang manis gurih, cemilan klasik yang tak lekang waktu",
+      "stock": 60,
+      "rating": 4.8,
+      "featured": true,
+      "variants": [
+        {"size": "150g", "price": 12000},
+        {"size": "300g", "price": 22000},
+        {"size": "600g", "price": 40000}
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Keripik Pisang Cokelat",
+      "category": "keripik",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Keripik pisang dengan lapisan cokelat manis, perpaduan sempurna",
+      "stock": 40,
+      "rating": 4.6,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 15000},
+        {"size": "300g", "price": 28000}
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Keripik Pisang Keju",
+      "category": "keripik",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Keripik pisang dengan taburan keju, gurih dan unik",
+      "stock": 35,
+      "rating": 4.5,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 15000}
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Keripik Tempe Original",
+      "category": "keripik",
+      "price": 10000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Keripik tempe renyah, camilan sehat khas Indonesia",
+      "stock": 55,
+      "rating": 4.4,
+      "featured": false,
+      "variants": [
+        {"size": "100g", "price": 10000},
+        {"size": "250g", "price": 23000}
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Keripik Tempe Pedas",
+      "category": "keripik",
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Keripik tempe dengan bumbu pedas menggoda",
+      "stock": 48,
+      "rating": 4.6,
+      "featured": false,
+      "variants": [
+        {"size": "100g", "price": 12000}
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Keripik Kentang Original",
+      "category": "keripik",
+      "price": 13000,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400",
+      "description": "Keripik kentang renyah dengan rasa asin gurih",
+      "stock": 70,
+      "rating": 4.7,
+      "featured": false,
+      "variants": [
+        {"size": "100g", "price": 13000},
+        {"size": "200g", "price": 24000}
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Keripik Kentang BBQ",
+      "category": "keripik",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Keripik kentang dengan bumbu BBQ yang kaya rasa",
+      "stock": 65,
+      "rating": 4.8,
+      "featured": false,
+      "variants": [
+        {"size": "100g", "price": 15000}
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Makaroni Goreng Pedas Level 1",
+      "category": "makaroni",
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Makaroni goreng renyah dengan bumbu pedas ringan",
+      "stock": 80,
+      "rating": 4.5,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 12000},
+        {"size": "300g", "price": 22000}
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Makaroni Goreng Pedas Level 3",
+      "category": "makaroni",
+      "price": 13000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Makaroni goreng dengan kepedasan sedang yang nagih",
+      "stock": 75,
+      "rating": 4.7,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 13000}
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Makaroni Goreng Pedas Level 5",
+      "category": "makaroni",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Makaroni goreng super pedas untuk pemberani!",
+      "stock": 60,
+      "rating": 4.9,
+      "featured": true,
+      "variants": [
+        {"size": "150g", "price": 15000},
+        {"size": "300g", "price": 28000}
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Makaroni Goreng Keju",
+      "category": "makaroni",
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400",
+      "description": "Makaroni goreng dengan taburan keju yang melimpah",
+      "stock": 70,
+      "rating": 4.6,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 14000}
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Makaroni Goreng BBQ",
+      "category": "makaroni",
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Makaroni goreng dengan bumbu BBQ yang smoky",
+      "stock": 65,
+      "rating": 4.5,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 14000}
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Makaroni Spiral Pedas Manis",
+      "category": "makaroni",
+      "price": 13000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Makaroni spiral dengan perpaduan rasa pedas dan manis",
+      "stock": 55,
+      "rating": 4.7,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 13000}
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Kerupuk Udang Jumbo",
+      "category": "kerupuk",
+      "price": 20000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Kerupuk udang ukuran besar dengan rasa laut yang kuat",
+      "stock": 40,
+      "rating": 4.8,
+      "featured": false,
+      "variants": [
+        {"size": "200g", "price": 20000},
+        {"size": "500g", "price": 48000}
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Kerupuk Udang Medium",
+      "category": "kerupuk",
+      "price": 15000,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400",
+      "description": "Kerupuk udang ukuran sedang, praktis dan ekonomis",
+      "stock": 50,
+      "rating": 4.6,
+      "featured": false,
+      "variants": [
+        {"size": "200g", "price": 15000}
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Kerupuk Ikan Original",
+      "category": "kerupuk",
+      "price": 18000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Kerupuk ikan dengan rasa laut yang autentik",
+      "stock": 45,
+      "rating": 4.7,
+      "featured": false,
+      "variants": [
+        {"size": "200g", "price": 18000}
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Kerupuk Ikan Pedas",
+      "category": "kerupuk",
+      "price": 19000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Kerupuk ikan dengan tambahan bumbu pedas",
+      "stock": 38,
+      "rating": 4.6,
+      "featured": false,
+      "variants": [
+        {"size": "200g", "price": 19000}
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Kerupuk Rambak Kulit Sapi",
+      "category": "kerupuk",
+      "price": 22000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Kerupuk rambak dari kulit sapi pilihan, renyah maksimal",
+      "stock": 35,
+      "rating": 4.9,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 22000}
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Kerupuk Puli Pedas",
+      "category": "kerupuk",
+      "price": 16000,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400",
+      "description": "Kerupuk puli dengan bumbu pedas yang merata",
+      "stock": 42,
+      "rating": 4.5,
+      "featured": false,
+      "variants": [
+        {"size": "200g", "price": 16000}
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Kacang Thailand Original",
+      "category": "kacang",
+      "price": 10000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Kacang tanah renyah dengan bumbu khas Thailand",
+      "stock": 90,
+      "rating": 4.4,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 10000},
+        {"size": "300g", "price": 19000}
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Kacang Thailand Pedas",
+      "category": "kacang",
+      "price": 11000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Kacang Thailand dengan tambahan cabai untuk rasa pedas",
+      "stock": 85,
+      "rating": 4.6,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 11000}
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Kacang Atom Original",
+      "category": "kacang",
+      "price": 12000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Kacang atom dengan lapisan tepung yang renyah",
+      "stock": 75,
+      "rating": 4.7,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 12000},
+        {"size": "300g", "price": 22000}
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Kacang Atom Pedas",
+      "category": "kacang",
+      "price": 13000,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400",
+      "description": "Kacang atom dengan bumbu pedas yang merata",
+      "stock": 70,
+      "rating": 4.8,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 13000}
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Kacang Bawang Original",
+      "category": "kacang",
+      "price": 9000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Kacang tanah goreng dengan bawang putih yang wangi",
+      "stock": 95,
+      "rating": 4.5,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 9000},
+        {"size": "300g", "price": 17000}
+      ]
+    },
+    {
+      "id": 28,
+      "name": "Kacang Telur Asin",
+      "category": "kacang",
+      "price": 14000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Kacang tanah dengan lapisan telur asin yang gurih",
+      "stock": 65,
+      "rating": 4.9,
+      "featured": false,
+      "variants": [
+        {"size": "150g", "price": 14000}
+      ]
+    },
+    {
+      "id": 29,
+      "name": "Kacang Mete Original",
+      "category": "kacang",
+      "price": 25000,
+      "image": "https://images.unsplash.com/photo-1600952841320-db92ec4047ca?w=400",
+      "description": "Kacang mete premium, renyah dan gurih alami",
+      "stock": 45,
+      "rating": 4.8,
+      "featured": false,
+      "variants": [
+        {"size": "100g", "price": 25000},
+        {"size": "250g", "price": 60000}
+      ]
+    },
+    {
+      "id": 30,
+      "name": "Kacang Mete Madu",
+      "category": "kacang",
+      "price": 28000,
+      "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400",
+      "description": "Kacang mete dengan lapisan madu manis yang lezat",
+      "stock": 40,
+      "rating": 4.9,
+      "featured": false,
+      "variants": [
+        {"size": "100g", "price": 28000}
+      ]
+    },
+    {
+      "id": 31,
+      "name": "Mix Snack Pedas",
+      "category": "paket",
+      "price": 35000,
+      "image": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400",
+      "description": "Paket mix berisi berbagai camilan pedas pilihan",
+      "stock": 30,
+      "rating": 4.7,
+      "featured": false,
+      "variants": [
+        {"size": "500g", "price": 35000}
+      ]
+    },
+    {
+      "id": 32,
+      "name": "Mix Snack Keluarga",
+      "category": "paket",
+      "price": 50000,
+      "image": "https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400",
+      "description": "Paket besar berisi berbagai jenis camilan untuk keluarga",
+      "stock": 25,
+      "rating": 4.8,
+      "featured": false,
+      "variants": [
+        {"size": "1kg", "price": 50000}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Kriuk Kita</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <script>
+        // Protect this page - only logged in users can access
+        if (!isLoggedIn()) {
+            alert('Anda harus login terlebih dahulu untuk mengakses halaman admin!');
+            window.location.href = '../login.html';
+        }
+    </script>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <span class="brand-icon">🔥</span>
+                <span class="brand-text ms-2">Kriuk Kita</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="produk.html">Produk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="keranjang.html">Keranjang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="kontak.html">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-orange ms-lg-3" href="../login.html" id="loginBtn">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="mb-0">Admin Panel</h1>
+                    <p class="mb-0">Kelola produk Kriuk Kita</p>
+                </div>
+                <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                    <div id="userInfo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Content -->
+    <div class="container my-5">
+        <!-- Add Product Button -->
+        <div class="mb-4">
+            <button class="btn btn-orange btn-lg" data-bs-toggle="modal" data-bs-target="#productModal" onclick="resetForm()">
+                ➕ Tambah Produk Baru
+            </button>
+        </div>
+
+        <!-- Products Table -->
+        <div class="admin-card">
+            <h3 class="mb-4">Daftar Produk</h3>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Gambar</th>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Rating</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productsTableBody">
+                        <tr>
+                            <td colspan="8" class="text-center">
+                                <div class="spinner-border text-orange" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal (for Create/Update) -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Tambah Produk Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Nama Produk</label>
+                            <input type="text" class="form-control" id="productName" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select class="form-select" id="productCategory" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="keripik">Keripik</option>
+                                <option value="makaroni">Makaroni</option>
+                                <option value="kerupuk">Kerupuk</option>
+                                <option value="kacang">Kacang</option>
+                                <option value="paket">Paket</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Harga (Rp)</label>
+                            <input type="number" class="form-control" id="productPrice" required min="1000">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">URL Gambar</label>
+                            <input type="url" class="form-control" id="productImage" placeholder="https://..." required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Stok</label>
+                                <input type="number" class="form-control" id="productStock" required min="0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Rating</label>
+                                <input type="number" class="form-control" id="productRating" required min="0" max="5" step="0.1">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="productFeatured">
+                                <label class="form-check-label" for="productFeatured">
+                                    Produk Unggulan
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-orange" onclick="saveProduct()">Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+    <script>
+        let products = [];
+        let editingProductId = null;
+        const modal = new bootstrap.Modal(document.getElementById('productModal'));
+
+        // Load products
+        async function loadProducts() {
+            try {
+                const response = await fetch('../data/products.json');
+                const data = await response.json();
+                products = data.products;
+                
+                // Also check localStorage for updated products
+                const localProducts = localStorage.getItem('kriukKitaProducts');
+                if (localProducts) {
+                    products = JSON.parse(localProducts);
+                }
+                
+                displayProducts();
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        }
+
+        // Display products in table
+        function displayProducts() {
+            const tbody = document.getElementById('productsTableBody');
+            
+            if (products.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center">Belum ada produk</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = products.map(product => `
+                <tr>
+                    <td>${product.id}</td>
+                    <td><img src="${product.image}" alt="${product.name}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;"></td>
+                    <td>${product.name}</td>
+                    <td><span class="badge bg-secondary">${getCategoryName(product.category)}</span></td>
+                    <td>Rp ${product.price.toLocaleString('id-ID')}</td>
+                    <td>${product.stock}</td>
+                    <td>⭐ ${product.rating}</td>
+                    <td>
+                        <div class="table-actions">
+                            <button class="btn-action btn-edit" onclick="editProduct(${product.id})" title="Edit">
+                                ✏️
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteProduct(${product.id})" title="Hapus">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Get category name
+        function getCategoryName(category) {
+            const categories = {
+                'keripik': 'Keripik',
+                'makaroni': 'Makaroni',
+                'kerupuk': 'Kerupuk',
+                'kacang': 'Kacang',
+                'paket': 'Paket'
+            };
+            return categories[category] || category;
+        }
+
+        // Reset form
+        function resetForm() {
+            editingProductId = null;
+            document.getElementById('modalTitle').textContent = 'Tambah Produk Baru';
+            document.getElementById('productForm').reset();
+            document.getElementById('productId').value = '';
+        }
+
+        // Edit product
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            editingProductId = id;
+            document.getElementById('modalTitle').textContent = 'Edit Produk';
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productName').value = product.name;
+            document.getElementById('productCategory').value = product.category;
+            document.getElementById('productPrice').value = product.price;
+            document.getElementById('productImage').value = product.image;
+            document.getElementById('productDescription').value = product.description;
+            document.getElementById('productStock').value = product.stock;
+            document.getElementById('productRating').value = product.rating;
+            document.getElementById('productFeatured').checked = product.featured || false;
+
+            modal.show();
+        }
+
+        // Save product (Create or Update)
+        function saveProduct() {
+            const form = document.getElementById('productForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const productData = {
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                price: parseInt(document.getElementById('productPrice').value),
+                image: document.getElementById('productImage').value,
+                description: document.getElementById('productDescription').value,
+                stock: parseInt(document.getElementById('productStock').value),
+                rating: parseFloat(document.getElementById('productRating').value),
+                featured: document.getElementById('productFeatured').checked
+            };
+
+            if (editingProductId) {
+                // UPDATE
+                const index = products.findIndex(p => p.id === editingProductId);
+                if (index !== -1) {
+                    products[index] = { ...products[index], ...productData };
+                }
+                alert('Produk berhasil diupdate!');
+            } else {
+                // CREATE
+                const newId = Math.max(...products.map(p => p.id), 0) + 1;
+                products.push({
+                    id: newId,
+                    ...productData,
+                    variants: [{ size: "100g", price: productData.price }]
+                });
+                alert('Produk berhasil ditambahkan!');
+            }
+
+            // Save to localStorage
+            localStorage.setItem('kriukKitaProducts', JSON.stringify(products));
+            
+            displayProducts();
+            modal.hide();
+            resetForm();
+        }
+
+        // Delete product
+        function deleteProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            if (confirm(`Apakah Anda yakin ingin menghapus produk "${product.name}"?`)) {
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('kriukKitaProducts', JSON.stringify(products));
+                displayProducts();
+                alert('Produk berhasil dihapus!');
+            }
+        }
+
+        // Load products on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+        });
+    </script>
+</body>
+</html>

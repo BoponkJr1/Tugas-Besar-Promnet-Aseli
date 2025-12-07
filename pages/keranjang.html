@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keranjang - Kriuk Kita</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <script>
+        // Protect this page - redirect if not logged in
+        if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
+            alert('Anda harus login terlebih dahulu!');
+            window.location.href = '../login.html';
+        }
+    </script>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <span class="brand-icon">🔥</span>
+                <span class="brand-text ms-2">Kriuk Kita</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../index.html">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="produk.html">Produk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="keranjang.html">Keranjang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="kontak.html">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-orange ms-lg-3" href="../login.html" id="loginBtn">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section style="padding-top: 100px; padding-bottom: 40px; background: linear-gradient(135deg, #FEF3E2 0%, #FFE8CC 100%);">
+        <div class="container text-center">
+            <h1 class="mb-3">🛒 Keranjang Belanja</h1>
+            <p class="lead">Kelola pesanan Anda di sini</p>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Cart Items -->
+                <div class="col-lg-8">
+                    <div id="cartItems">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    <div id="emptyCart" class="text-center py-5" style="display: none;">
+                        <div style="font-size: 5rem; opacity: 0.3;">🛒</div>
+                        <h3 class="mt-3">Keranjang Anda Kosong</h3>
+                        <p class="text-muted">Yuk, mulai belanja camilan favorit Anda!</p>
+                        <a href="produk.html" class="btn btn-orange mt-3">Lihat Produk</a>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div class="col-lg-4">
+                    <div class="cart-summary" id="cartSummary" style="display: none;">
+                        <h4 class="mb-4">Ringkasan Pesanan</h4>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span id="subtotal">Rp 0</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Ongkir</span>
+                            <span id="shipping">Rp 15.000</span>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between mb-4">
+                            <strong>Total</strong>
+                            <strong class="text-orange" id="total">Rp 0</strong>
+                        </div>
+
+                        <button class="btn btn-orange w-100 mb-2" onclick="checkout()">
+                            Checkout
+                        </button>
+                        
+                        <a href="produk.html" class="btn btn-outline-secondary w-100">
+                            Lanjut Belanja
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <div class="mb-3">🔥</div>
+            <h3 class="text-orange mb-2">Kriuk Kita</h3>
+            <p class="text-muted">Camilan kriuk untuk setiap momen</p>
+            <p class="text-muted mt-3">© 2024 Kriuk Kita. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        const SHIPPING_COST = 15000;
+        let cart = [];
+
+        // Load cart from localStorage
+        function loadCart() {
+            cart = JSON.parse(localStorage.getItem('kriukKitaCart') || '[]');
+            displayCart();
+            updateSummary();
+        }
+
+        // Display cart items
+        function displayCart() {
+            const cartItemsEl = document.getElementById('cartItems');
+            const emptyCartEl = document.getElementById('emptyCart');
+            const cartSummaryEl = document.getElementById('cartSummary');
+
+            if (cart.length === 0) {
+                cartItemsEl.innerHTML = '';
+                emptyCartEl.style.display = 'block';
+                cartSummaryEl.style.display = 'none';
+                return;
+            }
+
+            emptyCartEl.style.display = 'none';
+            cartSummaryEl.style.display = 'block';
+
+            cartItemsEl.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 col-4">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image w-100">
+                        </div>
+                        <div class="col-md-4 col-8">
+                            <h5 class="mb-1">${item.name}</h5>
+                            <p class="text-muted small mb-0">${item.description}</p>
+                        </div>
+                        <div class="col-md-3 col-6 mt-3 mt-md-0">
+                            <div class="quantity-control">
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                                <span class="mx-3">${item.quantity}</span>
+                                <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-4 mt-3 mt-md-0 text-md-end">
+                            <p class="mb-0 fw-bold text-orange">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</p>
+                        </div>
+                        <div class="col-md-1 col-2 mt-3 mt-md-0 text-end">
+                            <button class="btn btn-sm btn-danger" onclick="removeItem(${index})">🗑️</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update quantity
+        function updateQuantity(index, newQuantity) {
+            if (newQuantity < 1) {
+                removeItem(index);
+                return;
+            }
+
+            if (newQuantity > cart[index].stock) {
+                alert(`Stok ${cart[index].name} tidak mencukupi. Stok tersedia: ${cart[index].stock}`);
+                return;
+            }
+
+            cart[index].quantity = newQuantity;
+            saveCart(cart);
+            loadCart();
+        }
+
+        // Remove item from cart
+        function removeItem(index) {
+            const itemName = cart[index].name;
+            if (confirm(`Hapus ${itemName} dari keranjang?`)) {
+                cart.splice(index, 1);
+                saveCart(cart);
+                loadCart();
+            }
+        }
+
+        // Update summary
+        function updateSummary() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const total = subtotal + (cart.length > 0 ? SHIPPING_COST : 0);
+
+            document.getElementById('subtotal').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            document.getElementById('total').textContent = `Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        // Checkout
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Keranjang Anda kosong!');
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const total = subtotal + SHIPPING_COST;
+            
+            const message = `Terima kasih telah berbelanja di Kriuk Kita!
+
+Detail Pesanan:
+${cart.map(item => `- ${item.name} (${item.quantity}x) = Rp ${(item.price * item.quantity).toLocaleString('id-ID')}`).join('\n')}
+
+Subtotal: Rp ${subtotal.toLocaleString('id-ID')}
+Ongkir: Rp ${SHIPPING_COST.toLocaleString('id-ID')}
+Total: Rp ${total.toLocaleString('id-ID')}
+
+Pesanan Anda sedang diproses.`;
+
+            alert(message);
+            
+            // Clear cart after checkout
+            localStorage.removeItem('kriukKitaCart');
+            cart = [];
+            loadCart();
+        }
+
+        // Load cart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+        });
+    </script>
+</body>
+</html>

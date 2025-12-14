@@ -1,6 +1,6 @@
 /* ==========================================
    KRIUK KITA - GLOBAL.CSS
-   CSS Global untuk semua halaman
+   CSS untuk SEMUA halaman
    ========================================== */
 
 /* Root Variables */
@@ -8,11 +8,10 @@
     --orange-primary: #FF6B35;
     --orange-dark: #E55A2B;
     --gray-light: #F8F9FA;
-    --gray-dark: #343A40;
     --text-dark: #2C3E50;
 }
 
-/* Reset & Base Styles */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -25,7 +24,9 @@ body {
     line-height: 1.6;
 }
 
-/* Navbar Styles */
+/* ==========================================
+   NAVBAR - SAMA UNTUK SEMUA HALAMAN
+   ========================================== */
 .navbar {
     padding: 1rem 0;
     transition: all 0.3s ease;
@@ -51,6 +52,11 @@ body {
     color: var(--orange-primary) !important;
 }
 
+.nav-link.active {
+    color: var(--orange-primary) !important;
+}
+
+/* Tombol Orange */
 .btn-orange {
     background-color: var(--orange-primary);
     color: white;
@@ -68,6 +74,7 @@ body {
     color: white;
 }
 
+/* Tombol Outline Orange */
 .btn-outline-orange {
     border: 2px solid var(--orange-primary);
     color: var(--orange-primary);
@@ -84,12 +91,14 @@ body {
     transform: translateY(-2px);
 }
 
-/* Text Colors */
+/* Text Orange */
 .text-orange {
     color: var(--orange-primary);
 }
 
-/* Bootstrap Card Customization */
+/* ==========================================
+   BOOTSTRAP CARD CUSTOMIZATION
+   ========================================== */
 .card {
     border: none;
     border-radius: 1rem;
@@ -128,7 +137,9 @@ body {
     margin: 0.5rem 0;
 }
 
-/* Category Cards */
+/* ==========================================
+   CATEGORY CARDS
+   ========================================== */
 .category-card {
     background: white;
     padding: 2rem 1rem;
@@ -154,12 +165,59 @@ body {
     margin: 0;
 }
 
-/* Footer */
+/* ==========================================
+   PRODUCT CARDS
+   ========================================== */
+.product-card {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--orange-primary);
+    margin-bottom: 0.5rem;
+}
+
+.product-desc {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+/* ==========================================
+   FOOTER
+   ========================================== */
 footer {
     margin-top: auto;
 }
 
-/* Modal Styles (Dipakai di beberapa halaman) */
+/* ==========================================
+   MODAL STYLES
+   ========================================== */
 .modal-content {
     border-radius: 1rem;
     border: none;
@@ -185,7 +243,6 @@ footer {
     border-top: 1px solid #ddd;
 }
 
-/* Form Styles in Modal */
 .modal-body .form-label {
     font-weight: 600;
     color: var(--text-dark);
@@ -198,7 +255,37 @@ footer {
     box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
 }
 
-/* Responsive Utilities */
+/* ==========================================
+   RESPONSIVE GRID
+   ========================================== */
+@media (max-width: 576px) {
+    .row.g-4 > [class*='col-'] {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+    .row.g-4 > .col-md-6 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 769px) {
+    .row.g-4 > .col-lg-3 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+    .row.g-4 > .col-lg-4 {
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+    }
+}
+
+/* ==========================================
+   DISPLAY BLOCK/NONE RESPONSIVE
+   ========================================== */
 .mobile-only {
     display: block;
 }
@@ -216,124 +303,31 @@ footer {
     }
 }
 
-/* Loading Spinner */
+/* ==========================================
+   UTILITY CLASSES
+   ========================================== */
+.text-center {
+    text-align: center;
+}
+
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 3rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mb-5 { margin-bottom: 3rem; }
+.py-5 { padding: 3rem 0; }
+
+/* ==========================================
+   LOADING SPINNER
+   ========================================== */
 .spinner-border.text-orange {
     color: var(--orange-primary) !important;
 }
 
-/* Responsive Grid - Kolom berubah sesuai layar */
-@media (max-width: 576px) {
-    .row.g-4 > [class*='col-'] {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-}
-
-@media (min-width: 577px) and (max-width: 768px) {
-    .row.g-4 > .col-md-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-}
-
-@media (min-width: 769px) {
-    .row.g-4 > .col-lg-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-    .row.g-4 > .col-lg-4 {
-        flex: 0 0 33.333%;
-        max-width: 33.333%;
-    }
-}
-
-/* Utility Classes */
-.text-center {
-    text-align: center;
-}
-
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
-.mt-5 { margin-top: 3rem; }
-.mb-3 { margin-bottom: 1rem; }
-.mb-4 { margin-bottom: 1.5rem; }
-.mb-5 { margin-bottom: 3rem; }
-.py-5 { padding: 3rem 0; }
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.fade-in {
-    animation: fadeIn 0.6s ease-out;
-}
-
-/* Responsive Grid - Kolom berubah sesuai layar */
-@media (max-width: 576px) {
-    .row.g-4 > [class*='col-'] {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-}
-
-@media (min-width: 577px) and (max-width: 768px) {
-    .row.g-4 > .col-md-6 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-}
-
-@media (min-width: 769px) {
-    .row.g-4 > .col-lg-3 {
-        flex: 0 0 25%;
-        max-width: 25%;
-    }
-    .row.g-4 > .col-lg-4 {
-        flex: 0 0 33.333%;
-        max-width: 33.333%;
-    }
-}
-
-/* Display Block/None berdasarkan ukuran layar */
-.mobile-only {
-    display: block;
-}
-
-.desktop-only {
-    display: none;
-}
-
-@media (min-width: 768px) {
-    .mobile-only {
-        display: none;
-    }
-    .desktop-only {
-        display: block;
-    }
-}
-
-/* Utility Classes */
-.text-center {
-    text-align: center;
-}
-
-.mt-3 { margin-top: 1rem; }
-.mt-4 { margin-top: 1.5rem; }
-.mt-5 { margin-top: 3rem; }
-.mb-3 { margin-bottom: 1rem; }
-.mb-4 { margin-bottom: 1.5rem; }
-.mb-5 { margin-bottom: 3rem; }
-.py-5 { padding: 3rem 0; }
-
-/* Animations */
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
 @keyframes fadeIn {
     from {
         opacity: 0;

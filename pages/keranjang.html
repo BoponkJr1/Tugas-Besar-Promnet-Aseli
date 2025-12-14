@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang - Kriuk Kita</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="../css/keranjang.css">
+    
+    <!-- CSS: Global dulu, baru Keranjang -->
     <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/keranjang.css">
 </head>
-
 <body>
-
+    <!-- NAVBAR - SAMA SEPERTI HOME -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="../home.html">
                 <span class="brand-icon">🔥</span>
-                <span class="brand-text ms-2">Kriuk Kita</span>
+                <span class="brand-text ms-2">Food Court</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center" id="navbarList">
-                    <li class="nav-item"><a class="nav-link" href="../home.html">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link" href="produk.html">Produk</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="keranjang.html">Keranjang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
-                    <li class="nav-item ms-lg-3"><a class="btn btn-orange" href="../login.html">Login</a></li>
+                    <!-- Menu akan di-generate oleh JavaScript -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="../login.html">Login</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- HEADER -->
     <section style="padding-top: 100px; padding-bottom: 40px; background: linear-gradient(135deg, #FEF3E2 0%, #FFE8CC 100%);">
         <div class="container text-center">
             <h1 class="mb-3">🛒 Keranjang Belanja</h1>
@@ -42,23 +46,25 @@
         </div>
     </section>
 
+    <!-- CART CONTENT -->
     <section class="py-5">
         <div class="container">
             <div class="row">
+                <!-- Cart Items -->
                 <div class="col-lg-8">
-                    
                     <div class="d-flex align-items-center mb-3 p-3 bg-white rounded border">
                         <div class="form-check mb-0">
-                            <input class="form-check-input custom-checkbox" type="checkbox" id="selectAll" onchange="toggleSelectAll()">
-                            <label class="form-check-label ms-2 fw-bold user-select-none" for="selectAll">Pilih Semua</label>
+                            <input class="form-check-input" type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                            <label class="form-check-label ms-2 fw-bold" for="selectAll">Pilih Semua</label>
                         </div>
                         <div class="ms-auto">
-                            <button class="btn btn-sm text-danger fw-bold" onclick="deleteSelected()">Hapus Pilihan</button>
+                            <button class="btn btn-sm text-danger fw-bold" onclick="deleteSelected()">
+                                Hapus Pilihan
+                            </button>
                         </div>
                     </div>
 
-                    <div id="cartItems">
-                        </div>
+                    <div id="cartItems"></div>
 
                     <div id="emptyCart" class="text-center py-5" style="display: none;">
                         <div style="font-size: 5rem; opacity: 0.3;">🛒</div>
@@ -68,30 +74,31 @@
                     </div>
                 </div>
 
+                <!-- Summary -->
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
                         <div class="card-body">
                             <h5 class="card-title fw-bold mb-4">Ringkasan Belanja</h5>
                             
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Total Harga (<span id="selectedCount">0</span> barang)</span>
+                                <span class="text-muted">Total (<span id="selectedCount">0</span> barang)</span>
                                 <span class="fw-bold" id="subtotal">Rp 0</span>
                             </div>
                             
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Ongkos Kirim</span>
+                                <span class="text-muted">Ongkir</span>
                                 <span class="fw-bold" id="shipping">Rp 0</span>
                             </div>
 
                             <hr>
 
                             <div class="d-flex justify-content-between mb-4">
-                                <strong class="fs-5">Total Tagihan</strong>
+                                <strong class="fs-5">Total</strong>
                                 <strong class="fs-5 text-orange" id="total">Rp 0</strong>
                             </div>
 
-                            <button class="btn btn-orange w-100 py-2 fw-bold" id="btnCheckout" onclick="openCheckoutModal()" disabled>
-                                Beli (<span id="btnCount">0</span>)
+                            <button class="btn btn-orange w-100 py-2 fw-bold" id="btnCheckout" disabled>
+                                Checkout (<span id="btnCount">0</span>)
                             </button>
                         </div>
                     </div>
@@ -100,79 +107,20 @@
         </div>
     </section>
 
-    <div class="modal fade" id="checkoutModal" tabindex="-1" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-light">
-                    <h5 class="modal-title fw-bold" id="modalTitle">Konfirmasi Pesanan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4">
-                    
-                    <div id="stepSummary">
-                        <h6 class="fw-bold mb-3">Barang yang dibeli:</h6>
-                        <div id="checkoutList" class="mb-3" style="max-height: 150px; overflow-y: auto;">
-                            </div>
-                        
-                        <div class="mb-4">
-                            <label for="addressInput" class="form-label fw-bold small text-muted">Alamat Pengiriman</label>
-                            <textarea class="form-control bg-light" id="addressInput" rows="3" placeholder="Masukkan alamat lengkap (Jalan, RT/RW, Kota)..." required></textarea>
-                        </div>
-
-                        <div class="bg-light p-3 rounded mb-4">
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Subtotal</span>
-                                <span id="modalSubtotal">Rp 0</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-1">
-                                <span>Ongkir</span>
-                                <span id="modalShipping">Rp 0</span>
-                            </div>
-                            <div class="border-top mt-2 pt-2 d-flex justify-content-between">
-                                <strong>Total Bayar</strong>
-                                <strong class="text-orange fs-5" id="modalTotal">Rp 0</strong>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-orange w-100 py-2 fw-bold" onclick="showPayment()">
-                            Lanjut ke Pembayaran <i class="bi bi-arrow-right"></i>
-                        </button>
-                    </div>
-
-                    <div id="stepPayment" style="display: none;">
-                        <div class="text-center">
-                            <h5 class="fw-bold mb-2">Scan QRIS</h5>
-                            <p class="text-muted small mb-4">Scan kode di bawah ini untuk membayar</p>
-                            
-                            <div class="qr-container">
-                                <img src="" id="qrImage" class="qr-image" alt="QR Code Pembayaran">
-                                <p class="mt-2 fw-bold mb-0">KRIUK KITA MERCHANT</p>
-                                <small class="text-muted" id="qrRef">Ref: INV/...</small>
-                            </div>
-
-                            <div class="alert alert-info small text-start">
-                                <i class="bi bi-geo-alt-fill"></i> <strong>Dikirim ke:</strong><br>
-                                <span id="displayAddress" class="text-muted">...</span>
-                            </div>
-
-                            <button class="btn btn-success w-100 py-2 fw-bold" onclick="completeOrder()">
-                                <i class="bi bi-check-circle-fill"></i> Selesai & Bayar
-                            </button>
-                            
-                            <button class="btn btn-link text-muted mt-2 text-decoration-none" onclick="backToSummary()">
-                                <small>Kembali</small>
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+    <!-- FOOTER -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <div class="mb-3">🔥</div>
+            <h3 class="text-orange mb-2">Kriuk Kita</h3>
+            <p class="text-muted mb-0">© 2024 Kriuk Kita</p>
         </div>
-    </div>
+    </footer>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
     <script src="../js/auth.js"></script>
-    <script src="../js/keranjang/keranjang.js"></script>
-
+    <script src="../js/keranjang.js"></script>
 </body>
 </html>

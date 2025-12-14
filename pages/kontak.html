@@ -4,43 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontak - Kriuk Kita</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- CSS: Global dulu, baru Kontak -->
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/kontak.css">
 </head>
 <body>
-    <!-- Navbar -->
+    <!-- NAVBAR - SAMA SEPERTI HOME -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="../home.html">
                 <span class="brand-icon">🔥</span>
-                <span class="brand-text ms-2">Kriuk Kita</span>
+                <span class="brand-text ms-2">Food Court</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center" id="navbarList">
+                    <!-- Menu akan di-generate oleh JavaScript -->
                     <li class="nav-item">
-                        <a class="nav-link" href="../home.html">Tentang Kami</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="produk.html">Produk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="keranjang.html">Keranjang</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="kontak.html">Kontak</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-orange ms-lg-3" href="../login.html" id="loginBtn">Login</a>
+                        <a class="nav-link" href="../login.html">Login</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Header -->
+    <!-- HEADER -->
     <section style="padding-top: 100px; padding-bottom: 40px; background: linear-gradient(135deg, #FEF3E2 0%, #FFE8CC 100%);">
         <div class="container text-center">
             <h1 class="mb-3">📞 Hubungi Kami</h1>
@@ -48,7 +45,7 @@
         </div>
     </section>
 
-    <!-- Contact Content -->
+    <!-- CONTACT CONTENT -->
     <section class="py-5">
         <div class="container">
             <div class="row g-4">
@@ -57,28 +54,28 @@
                     <div class="contact-info mb-4">
                         <div class="contact-icon">📍</div>
                         <h4>Alamat</h4>
-                        <p class="text-muted">Jl. Camilan No. 123<br>Bandung, Jawa Barat 40132<br>Indonesia</p>
+                        <p class="text-muted">
+                            Jl. Camilan No. 123<br>
+                            Bandung, Jawa Barat 40132<br>
+                            Indonesia
+                        </p>
                     </div>
 
                     <div class="contact-info mb-4">
                         <div class="contact-icon">📧</div>
                         <h4>Email</h4>
-                        <p class="text-muted">info@kriukkita.com<br>support@kriukkita.com</p>
+                        <p class="text-muted">
+                            info@kriukkita.com<br>
+                            support@kriukkita.com
+                        </p>
                     </div>
 
                     <div class="contact-info mb-4">
                         <div class="contact-icon">📱</div>
                         <h4>Telepon</h4>
-                        <p class="text-muted">+62 812-3456-7890<br>+62 811-2345-6789</p>
-                    </div>
-
-                    <div class="contact-info">
-                        <div class="contact-icon">🕐</div>
-                        <h4>Jam Operasional</h4>
                         <p class="text-muted">
-                            Senin - Jumat: 08:00 - 17:00<br>
-                            Sabtu: 08:00 - 15:00<br>
-                            Minggu: Tutup
+                            +62 812-3456-7890<br>
+                            +62 811-2345-6789
                         </p>
                     </div>
                 </div>
@@ -119,56 +116,27 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Map Section -->
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="contact-info">
-                        <h3 class="mb-4 text-center">Lokasi Kami</h3>
-                        <div class="ratio ratio-16x9">
-                            <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126748.5631!2d107.6!3d-6.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6398252477f%3A0x146a1f93d3e815b2!2sBandung%2C%20Kota%20Bandung%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1234567890"
-                                style="border:0; border-radius: 1rem;"
-                                allowfullscreen=""
-                                loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
     <footer class="bg-dark text-white py-4 mt-5">
         <div class="container text-center">
             <div class="mb-3">🔥</div>
             <h3 class="text-orange mb-2">Kriuk Kita</h3>
-            <p class="text-muted">Camilan kriuk untuk setiap momen</p>
-            <p class="text-muted mt-3">© 2024 Kriuk Kita. All rights reserved.</p>
+            <p class="text-muted mb-0">© 2024 Kriuk Kita</p>
         </div>
     </footer>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
     <script src="../js/auth.js"></script>
-    <script src="../js/app.js"></script>
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-
-            // Simulate sending message
-            alert(`Terima kasih, ${name}!\n\nPesan Anda telah diterima. Kami akan menghubungi Anda melalui ${email} atau ${phone} dalam 1x24 jam.`);
-            
-            // Reset form
-            this.reset();
-        });
-    </script>
+    <script src="../js/kontak.js"></script>
 </body>
 </html>
+
+<!-- ========================================== -->
+<!-- FILE: js/kontak.js (Simpan terpisah)      -->
+<!-- ========================================== -->

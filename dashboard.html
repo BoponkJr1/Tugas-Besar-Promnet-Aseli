@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Kriuk Kita</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
+    <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="./css/dashboard.css">
-
-
+    
+    <!-- CSS Custom -->
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
 <body>
-
     <div class="container-fluid">
         <div class="row">
+            <!-- SIDEBAR (Desktop Only) -->
             <div class="col-md-3 col-lg-2 sidebar p-4 d-none d-md-block">
+                <!-- Link ke Home dengan nama "Food Court" -->
                 <a href="home.html" class="d-flex align-items-center mb-4 text-decoration-none text-dark">
                     <span class="fs-4 me-2">🔥</span>
-                    <span class="fs-5 fw-bold">Admin Panel</span>
+                    <span class="fs-5 fw-bold">Food Court</span>
                 </a>
                 
                 <ul class="nav flex-column">
@@ -30,8 +33,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="home.html" target="_blank">
-                            <i class="bi bi-box-arrow-up-right me-2"></i> Lihat Website
+                        <a class="nav-link" href="home.html">
+                            <i class="bi bi-house-door me-2"></i> Kembali ke Home
                         </a>
                     </li>
                 </ul>
@@ -43,23 +46,30 @@
                 </div>
             </div>
 
+            <!-- MAIN CONTENT -->
             <div class="col-md-9 col-lg-10 p-4">
+                <!-- Mobile Header -->
                 <div class="d-md-none d-flex justify-content-between align-items-center mb-4">
                     <span class="fw-bold">🔥 Admin Panel</span>
                     <button onclick="handleLogout()" class="btn btn-sm btn-danger">Logout</button>
                 </div>
 
+                <!-- Header -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
                         <h2 class="fw-bold">Kelola Produk</h2>
                         <p class="text-muted" id="welcomeMsg">Selamat datang, Admin.</p>
                     </div>
-                    <button class="btn btn-primary bg-gradient border-0" style="background-color: #FF6B35;" 
-                            data-bs-toggle="modal" data-bs-target="#productModal" onclick="resetForm()">
+                    <button class="btn btn-primary bg-gradient border-0" 
+                            style="background-color: #FF6B35;" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#productModal" 
+                            onclick="resetForm()">
                         <i class="bi bi-plus-lg"></i> Tambah Produk
                     </button>
                 </div>
 
+                <!-- Statistik Cards -->
                 <div class="row g-3 mb-4">
                     <div class="col-md-4">
                         <div class="stat-card">
@@ -75,6 +85,7 @@
                     </div>
                 </div>
 
+                <!-- Tabel Produk -->
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -92,7 +103,7 @@
                                 <tbody id="productsTableBody">
                                     <tr>
                                         <td colspan="6" class="text-center py-5 text-muted">
-                                            <div class="spinner-border text-warning" role="status"></div>
+                                            <div class="spinner-border text-warning"></div>
                                             <div class="mt-2">Memuat data...</div>
                                         </td>
                                     </tr>
@@ -105,6 +116,7 @@
         </div>
     </div>
 
+    <!-- MODAL TAMBAH/EDIT PRODUK -->
     <div class="modal fade" id="productModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -119,7 +131,7 @@
                         <div class="row g-3">
                             <div class="col-md-8">
                                 <label class="form-label small fw-bold">Nama Produk</label>
-                                <input type="text" class="form-control" id="productName" required placeholder="Contoh: Keripik Singkong Balado">
+                                <input type="text" class="form-control" id="productName" required>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label small fw-bold">Kategori</label>
@@ -128,7 +140,7 @@
                                     <option value="makaroni">🍝 Makaroni</option>
                                     <option value="kerupuk">🦐 Kerupuk</option>
                                     <option value="kacang">🥜 Kacang</option>
-                                    <option value="paket">📦 Paket Bundling</option>
+                                    <option value="paket">📦 Paket</option>
                                 </select>
                             </div>
                             
@@ -147,8 +159,7 @@
 
                             <div class="col-12">
                                 <label class="form-label small fw-bold">URL Gambar</label>
-                                <input type="url" class="form-control" id="productImage" required placeholder="https://...">
-                                <div class="form-text">Ambil link gambar dari internet (Google Images -> Klik Kanan -> Copy Image Address).</div>
+                                <input type="url" class="form-control" id="productImage" required>
                             </div>
 
                             <div class="col-12">
@@ -160,7 +171,7 @@
                                 <div class="form-check form-switch p-3 bg-light rounded border">
                                     <input class="form-check-input" type="checkbox" id="productFeatured">
                                     <label class="form-check-label ms-2" for="productFeatured">
-                                        <b>Tampilkan di Halaman Depan?</b> (Produk Unggulan)
+                                        <b>Tampilkan di Halaman Depan?</b>
                                     </label>
                                 </div>
                             </div>
@@ -169,63 +180,21 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" style="background-color: #FF6B35; border:none;" onclick="saveProduct()">Simpan Data</button>
+                    <button type="button" class="btn btn-primary" 
+                            style="background-color: #FF6B35; border:none;" 
+                            onclick="saveProduct()">
+                        Simpan Data
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
-    <script src="./js/global/auth.js"></script>
-
-    <script src="./js/admin/admin.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            // A. Cek Session
-            if (typeof checkSession === 'undefined') {
-                console.error("Auth.js belum dimuat!");
-                return;
-            }
-
-            const session = await checkSession();
-            
-            // Jika Tidak Login -> Tendang ke Login
-            if (!session) {
-                alert("Akses Ditolak: Silakan login terlebih dahulu.");
-                window.location.href = 'login.html';
-                return;
-            }
-
-            // Tampilkan Nama Admin
-            const userName = session.user.user_metadata.full_name || session.user.email;
-            document.getElementById('welcomeMsg').innerText = `Login sebagai: ${userName}`;
-
-            // B. Load Data (Fungsi ini ada di admin.js)
-            // Kita tambahkan sedikit delay agar auth siap
-            if (typeof loadProducts === 'function') {
-                await loadProducts();
-                updateStats(); // Hitung statistik sederhana
-            }
-        });
-
-        async function handleLogout() {
-            if(confirm("Yakin ingin keluar dari Dashboard?")) {
-                await logout();
-                window.location.href = 'home.html';
-            }
-        }
-
-        // Fungsi Tambahan: Menghitung Statistik untuk Kartu di Atas
-        function updateStats() {
-            // products adalah variabel global dari admin.js
-            if (typeof products !== 'undefined') {
-                document.getElementById('statTotal').innerText = products.length;
-                const lowStock = products.filter(p => p.stock < 10).length;
-                document.getElementById('statLowStock').innerText = lowStock;
-            }
-        }
-    </script>
+    <!-- File JS Custom -->
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 </html>

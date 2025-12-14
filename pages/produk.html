@@ -1,53 +1,52 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produk - Kriuk Kita</title>
 
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- CSS: Global dulu, baru Produk -->
+    <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/produk.css">
-
-
 </head>
-
 <body>
-
+    <!-- NAVBAR - SAMA SEPERTI HOME -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="../home.html">
                 <span class="brand-icon">🔥</span>
-                <span class="brand-text ms-2">Kriuk Kita</span>
+                <span class="brand-text ms-2">Food Court</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center" id="navbarList">
-                    <li class="nav-item"><a class="nav-link" href="../home.html">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="produk.html">Produk</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.html">Keranjang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
-                    <li class="nav-item ms-lg-3"><a class="btn btn-orange" href="../login.html">Login</a></li>
+                    <!-- Menu akan di-generate oleh JavaScript -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="../login.html">Login</a>
+                    </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <section class="page-header">
-        <div class="container text-center pt-3">
+    <!-- HEADER -->
+    <section style="padding-top: 100px; padding-bottom: 40px; background: linear-gradient(135deg, #FEF3E2 0%, #FFE8CC 100%);">
+        <div class="container text-center">
             <h1 class="mb-3">Katalog Produk</h1>
             <p class="lead text-muted">Temukan camilan favorit Anda di sini</p>
         </div>
     </section>
 
+    <!-- FILTER SECTION -->
     <section class="filter-section mb-5">
         <div class="container">
             <div class="text-center">
@@ -64,23 +63,26 @@
         </div>
     </section>
 
+    <!-- PRODUCTS GRID -->
     <section class="py-3">
         <div class="container">
-
+            <!-- Loading -->
             <div id="loadingIndicator" class="text-center py-5">
-                <div class="spinner-border text-orange" role="status"></div>
+                <div class="spinner-border text-orange"></div>
                 <p class="mt-2 text-muted">Mengambil data dari server...</p>
             </div>
 
-            <div id="productsGrid" class="row g-4" style="display: none;">
-                </div>
+            <!-- Grid Produk -->
+            <div id="productsGrid" class="row g-4" style="display: none;"></div>
 
+            <!-- Empty State -->
             <div id="noProducts" class="text-center py-5" style="display: none;">
-                <p class="text-muted fs-5">Tidak ada produk ditemukan untuk kategori ini.</p>
+                <p class="text-muted fs-5">Tidak ada produk ditemukan.</p>
             </div>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer class="bg-dark text-white py-4 mt-5">
         <div class="container text-center">
             <div class="mb-3">🔥</div>
@@ -89,178 +91,11 @@
         </div>
     </footer>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
-    <script src="../js/global/auth.js"></script>
-
-    <script>
-        let allProducts = []; // Variabel global untuk menyimpan data dari DB
-
-        document.addEventListener('DOMContentLoaded', async function () {
-            // A. Cek Navbar Login/Logout
-            if (typeof checkSession === 'function') {
-                const session = await checkSession();
-                updateNavbar(session);
-            }
-
-            // B. Load Produk
-            await fetchAllProducts();
-        });
-
-        // --- FUNGSI 1: AMBIL DATA DARI SUPABASE ---
-        async function fetchAllProducts() {
-            const loading = document.getElementById('loadingIndicator');
-            const grid = document.getElementById('productsGrid');
-            
-            try {
-                // Query ke tabel 'products'
-                const { data, error } = await db
-                    .from('products')
-                    .select('*')
-                    .order('id', { ascending: false });
-
-                if (error) throw error;
-
-                allProducts = data; // Simpan ke global
-                renderProducts(allProducts); // Tampilkan
-
-            } catch (err) {
-                console.error("Error fetch:", err);
-                grid.innerHTML = `<div class="col-12 text-center text-danger">Gagal memuat produk: ${err.message}</div>`;
-            } finally {
-                loading.style.display = 'none';
-                grid.style.display = 'flex';
-            }
-        }
-
-        // --- FUNGSI 2: RENDER HTML ---
-        function renderProducts(productsToRender) {
-            const grid = document.getElementById('productsGrid');
-            const empty = document.getElementById('noProducts');
-
-            if (productsToRender.length === 0) {
-                grid.innerHTML = '';
-                empty.style.display = 'block';
-                return;
-            }
-
-            empty.style.display = 'none';
-            grid.innerHTML = productsToRender.map(product => `
-                <div class="col-md-6 col-lg-3">
-                    <div class="product-card h-100">
-                        <img src="${product.image}" class="card-img-top" alt="${product.name}"
-                             style="height: 200px; object-fit: cover;"
-                             onerror="this.src='https://placehold.co/400?text=No+Image'">
-                        
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title text-truncate" title="${product.name}">${product.name}</h5>
-                            <p class="card-text text-muted small" style="min-height: 40px;">
-                                ${product.description ? product.description.substring(0, 50) + '...' : 'Deskripsi tidak tersedia.'}
-                            </p>
-                            
-                            <div class="mt-auto">
-                                <h5 class="text-orange fw-bold mb-3">
-                                    Rp ${parseInt(product.price).toLocaleString('id-ID')}
-                                </h5>
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-outline-orange btn-sm" onclick="addToCart(${product.id})">
-                                        <i class="bi bi-cart-plus"></i> + Keranjang
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // --- FUNGSI 3: FILTER KATEGORI ---
-        function filterProducts(category, btnElement) {
-            // Update tombol active
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            btnElement.classList.add('active');
-
-            // Filter data
-            if (category === 'all') {
-                renderProducts(allProducts);
-            } else {
-                const filtered = allProducts.filter(p => p.category === category);
-                renderProducts(filtered);
-            }
-        }
-
-        // --- FUNGSI 4: UPDATE NAVBAR ---
-        function updateNavbar(session) {
-            const navbarList = document.getElementById('navbarList');
-            if (session) {
-                const userName = session.user.user_metadata.full_name || session.user.email.split('@')[0];
-                navbarList.innerHTML = `
-                    <li class="nav-item"><a class="nav-link fw-bold text-orange" href="../Dashboard.html">Dashboard</a></li>
-                    <li class="nav-item ms-lg-3 d-flex align-items-center gap-2">
-                        <span class="text-muted small me-2">Halo, <b>${userName}</b></span>
-                        <button class="btn btn-outline-danger btn-sm" onclick="handleLogout()">Logout</button>
-                    </li>
-                `;
-            } else {
-                navbarList.innerHTML = `
-                    <li class="nav-item"><a class="nav-link" href="../home.html">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="produk.html">Produk</a></li>
-                    <li class="nav-item"><a class="nav-link" href="keranjang.html">Keranjang</a></li>
-                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
-                    <li class="nav-item ms-lg-3"><a class="btn btn-orange" href="../login.html">Login</a></li>
-                `;
-            }
-        }
-
-        async function handleLogout() {
-            if (confirm("Logout?")) {
-                await logout();
-                window.location.reload();
-            }
-        }
-
-        // --- FUNGSI 5: ADD TO CART (FITUR BARU) ---
-        function addToCart(id) {
-            // 1. Cari produk dari data global yang sudah di-fetch
-            const product = allProducts.find(p => p.id === id);
-            
-            if (!product) {
-                console.error("Produk tidak ditemukan");
-                return;
-            }
-
-            // 2. Ambil keranjang lama dari LocalStorage (jika ada)
-            // Format JSON: [{id, name, price, image, quantity, selected}, ...]
-            let cart = JSON.parse(localStorage.getItem('kriukKitaCart') || '[]');
-
-            // 3. Cek apakah produk ini sudah ada di keranjang?
-            const existingIndex = cart.findIndex(item => item.id === id);
-
-            if (existingIndex > -1) {
-                // KASUS A: Produk sudah ada, tambahkan quantity
-                cart[existingIndex].quantity += 1;
-                // Opsional: Pastikan item terpilih otomatis saat ditambah
-                cart[existingIndex].selected = true; 
-            } else {
-                // KASUS B: Produk baru, push ke array
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
-                    image: product.image,
-                    stock: product.stock, // Simpan info stok untuk validasi nanti
-                    description: product.description, // Simpan deskripsi
-                    quantity: 1,
-                    selected: true // Default tercentang
-                });
-            }
-
-            // 4. Simpan kembali ke LocalStorage
-            localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
-
-            // 5. Beri Feedback ke User
-            alert(`✅ "${product.name}" berhasil masuk keranjang!`);
-        }
-    </script>
+    <!-- Custom JS -->
+    <script src="../js/auth.js"></script>
+    <script src="../js/produk.js"></script>
 </body>
 </html>

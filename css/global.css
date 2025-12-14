@@ -255,9 +255,9 @@ footer {
     box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
 }
 
-/* ==========================================
-   RESPONSIVE GRID
-   ========================================== */
+
+ /* RESPONSIVE GRID */
+
 @media (max-width: 576px) {
     .row.g-4 > [class*='col-'] {
         flex: 0 0 100%;

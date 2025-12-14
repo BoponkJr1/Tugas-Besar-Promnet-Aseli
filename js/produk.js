@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 
 // ==========================================
-// FUNGSI 1: UPDATE NAVBAR SESUAI STATUS LOGIN
-// SAMA SEPERTI DI HOME.HTML
+// FUNGSI 1: UPDATE NAVBAR - TANPA MENU HOME
+// Food Court logo sebagai link ke home
 // ==========================================
 async function updateNavbarBasedOnSession() {
     try {
@@ -30,9 +30,6 @@ async function updateNavbarBasedOnSession() {
                            session.user.email.split('@')[0];
             
             navbarList.innerHTML = `
-                <li class="nav-item">
-                    <a class="nav-link" href="../home.html">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="produk.html">Produk</a>
                 </li>
@@ -52,9 +49,6 @@ async function updateNavbarBasedOnSession() {
         } else {
             // === USER BELUM LOGIN ===
             navbarList.innerHTML = `
-                <li class="nav-item">
-                    <a class="nav-link" href="../home.html">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="produk.html">Produk</a>
                 </li>
@@ -80,7 +74,7 @@ async function updateNavbarBasedOnSession() {
 // ==========================================
 async function handleLogout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
-        await logout(); // Fungsi ini dari auth.js, redirect ke home.html
+        await logout();
     }
 }
 

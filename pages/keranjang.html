@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="../css/keranjang.css">
 </head>
 <body>
-    <!-- NAVBAR - SAMA SEPERTI HOME -->
+    <!-- NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="../home.html">
@@ -52,6 +52,7 @@
             <div class="row">
                 <!-- Cart Items -->
                 <div class="col-lg-8">
+                    <!-- Select All & Delete Selected -->
                     <div class="d-flex align-items-center mb-3 p-3 bg-white rounded border">
                         <div class="form-check mb-0">
                             <input class="form-check-input" type="checkbox" id="selectAll" onchange="toggleSelectAll()">
@@ -59,47 +60,73 @@
                         </div>
                         <div class="ms-auto">
                             <button class="btn btn-sm text-danger fw-bold" onclick="deleteSelected()">
-                                Hapus Pilihan
+                                <i class="bi bi-trash"></i> Hapus Pilihan
                             </button>
                         </div>
                     </div>
 
+                    <!-- Cart Items Container -->
                     <div id="cartItems"></div>
 
+                    <!-- Empty Cart Message -->
                     <div id="emptyCart" class="text-center py-5" style="display: none;">
                         <div style="font-size: 5rem; opacity: 0.3;">🛒</div>
                         <h3 class="mt-3">Keranjang Masih Kosong</h3>
                         <p class="text-muted">Yuk, isi dengan camilan favoritmu!</p>
-                        <a href="produk.html" class="btn btn-orange mt-3">Mulai Belanja</a>
+                        <a href="produk.html" class="btn btn-orange mt-3">
+                            <i class="bi bi-bag-plus"></i> Mulai Belanja
+                        </a>
                     </div>
                 </div>
 
-                <!-- Summary -->
+                <!-- Summary Sidebar -->
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
                         <div class="card-body">
-                            <h5 class="card-title fw-bold mb-4">Ringkasan Belanja</h5>
+                            <h5 class="card-title fw-bold mb-4">
+                                <i class="bi bi-receipt"></i> Ringkasan Belanja
+                            </h5>
                             
+                            <!-- Item Count -->
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Total (<span id="selectedCount">0</span> barang)</span>
+                                <span class="text-muted">Total Barang</span>
+                                <span class="fw-bold">
+                                    <span id="selectedCount">0</span> item
+                                </span>
+                            </div>
+                            
+                            <!-- Subtotal -->
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Subtotal</span>
                                 <span class="fw-bold" id="subtotal">Rp 0</span>
                             </div>
                             
+                            <!-- Shipping -->
                             <div class="d-flex justify-content-between mb-2">
                                 <span class="text-muted">Ongkir</span>
                                 <span class="fw-bold" id="shipping">Rp 0</span>
                             </div>
 
-                            <hr>
+                            <hr class="my-3">
 
+                            <!-- Total -->
                             <div class="d-flex justify-content-between mb-4">
-                                <strong class="fs-5">Total</strong>
+                                <strong class="fs-5">Total Bayar</strong>
                                 <strong class="fs-5 text-orange" id="total">Rp 0</strong>
                             </div>
 
-                            <button class="btn btn-orange w-100 py-2 fw-bold" id="btnCheckout" disabled>
+                            <!-- Checkout Button -->
+                            <button class="btn btn-orange w-100 py-3 fw-bold" id="btnCheckout" disabled>
+                                <i class="bi bi-credit-card"></i> 
                                 Checkout (<span id="btnCount">0</span>)
                             </button>
+
+                            <div class="mt-3 text-center">
+                                <small class="text-muted">
+                                    <i class="bi bi-shield-check"></i> 
+                                    Pembayaran aman & terpercaya
+                                </small>
+                            </div>
                         </div>
                     </div>
                 </div>

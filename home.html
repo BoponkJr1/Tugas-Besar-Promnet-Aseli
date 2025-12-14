@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Kriuk Kita</title>
+    <title>Home</title>
 
     <!-- Bootstrap CSS dari CDN -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Supabase Library untuk database -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <!-- CSS Custom: Global dulu, baru Home -->
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
+
 <body>
     <!-- 
         NAVBAR
@@ -28,12 +30,12 @@
                 <span class="brand-icon">🔥</span>
                 <span class="brand-text ms-2">Food Court</span>
             </a>
-            
+
             <!-- Tombol Toggle untuk Mobile -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <!-- Menu Navbar (akan diubah oleh JavaScript) -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center" id="navbarList">
@@ -56,11 +58,12 @@
             <div class="row h-100 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
                     <h1 class="hero-title">
-                        Camilan <span class="text-orange">Kriuk</span><br>Untuk Setiap Momen
+                        Makan <span class="text-orange">enak</span><br>Untuk Setiap Momen
                     </h1>
                     <p class="hero-desc">
-                        Nikmati sensasi kriuk yang menggoda dengan camilan kering pilihan kami. 
-                        Dibuat dari bahan berkualitas untuk pengalaman ngemil yang tak terlupakan!
+                        Kami menghadirkan tenant pilihan dengan cita rasa terbaik, harga terjangkau,
+                        dan pelayanan yang ramah, sehingga setiap kunjungan menjadi pengalaman makan yang menyenangkan
+                        bersama keluarga dan teman.
                     </p>
                     <a href="pages/produk.html" class="btn btn-orange btn-lg">JELAJAHI PRODUK</a>
                 </div>
@@ -110,13 +113,13 @@
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-5">Produk Unggulan</h2>
-            
+
             <!-- Loading Indicator -->
             <div id="loadingProducts" class="text-center">
                 <div class="spinner-border text-orange"></div>
                 <p class="mt-2">Memuat produk...</p>
             </div>
-            
+
             <!-- Grid Produk (akan diisi oleh JavaScript) -->
             <div id="featuredProducts" class="row g-4" style="display: none;"></div>
         </div>
@@ -127,19 +130,20 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
-                    <h2 class="mb-4">Tentang Kriuk Kita</h2>
+                    <h2 class="mb-4">Tentang Produk Kita</h2>
                     <p class="mb-3">
-                        Kriuk Kita adalah produsen camilan kering berkualitas yang telah dipercaya 
-                        oleh ribuan pelanggan di seluruh Indonesia.
+                        Food Court Kita adalah pusat kuliner yang menghadirkan beragam pilihan makanan dan minuman
+                        dari tenant pilihan dalam satu tempat yang nyaman dan modern.
                     </p>
                     <p class="mb-3">
-                        Kami menggunakan bahan-bahan pilihan dan proses produksi yang higienis untuk 
-                        menghasilkan camilan yang tidak hanya lezat, tetapi juga aman untuk dikonsumsi.
+                        Kami bekerja sama dengan berbagai penyedia kuliner untuk menyajikan hidangan berkualitas,
+                        higienis, dan bercita rasa terbaik demi kepuasan setiap pengunjung.
                     </p>
                     <p>
-                        Dengan berbagai varian rasa dan jenis camilan, Kriuk Kita siap menemani 
-                        setiap momen istimewa Anda!
+                        Dengan banyak pilihan menu dan suasana yang ramah, Food Court Kita siap menemani
+                        setiap momen makan Anda bersama keluarga dan teman.
                     </p>
+
                 </div>
                 <div class="col-lg-6">
                     <img src="assets/about-image.jpg" alt="Tentang Kami" class="img-fluid rounded shadow"
@@ -161,9 +165,10 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- File JS Custom -->
     <script src="js/auth.js"></script>
     <script src="js/home.js"></script>
 </body>
+
 </html>

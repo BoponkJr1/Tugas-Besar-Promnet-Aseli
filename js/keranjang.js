@@ -13,12 +13,15 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // 2. Load cart dari localStorage
     loadCart();
+    
+    // 3. Setup event listener untuk tombol checkout
+    setupCheckoutButton();
 });
 
 
 // ==========================================
 // FUNGSI 1: UPDATE NAVBAR SESUAI STATUS LOGIN
-// SAMA SEPERTI DI HOME.HTML & PRODUK.HTML
+// TANPA MENU HOME
 // ==========================================
 async function updateNavbarBasedOnSession() {
     try {
@@ -31,9 +34,6 @@ async function updateNavbarBasedOnSession() {
                            session.user.email.split('@')[0];
             
             navbarList.innerHTML = `
-                <li class="nav-item">
-                    <a class="nav-link" href="../home.html">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="produk.html">Produk</a>
                 </li>
@@ -53,9 +53,6 @@ async function updateNavbarBasedOnSession() {
         } else {
             // === USER BELUM LOGIN ===
             navbarList.innerHTML = `
-                <li class="nav-item">
-                    <a class="nav-link" href="../home.html">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="produk.html">Produk</a>
                 </li>
@@ -239,4 +236,93 @@ function deleteSelected() {
         renderCart();
         calculateTotal();
     }
+}
+
+
+// ==========================================
+// FUNGSI 9: SETUP CHECKOUT BUTTON
+// ==========================================
+function setupCheckoutButton() {
+    const btnCheckout = document.getElementById('btnCheckout');
+    
+    if (btnCheckout) {
+        btnCheckout.addEventListener('click', handleCheckout);
+    }
+}
+
+
+// ==========================================
+// FUNGSI 10: HANDLE CHECKOUT
+// ==========================================
+function handleCheckout() {
+    // Ambil item yang dipilih
+    const selectedItems = cart.filter(item => item.selected);
+    
+    // Validasi: harus ada item yang dipilih
+    if (selectedItems.length === 0) {
+        alert('⚠️ Pilih minimal 1 produk untuk checkout!');
+        return;
+    }
+    
+    // Hitung total
+    const subtotal = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const count = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
+    const total = subtotal + SHIPPING_COST;
+    
+    // Buat detail pesanan
+    let orderDetails = '🛒 DETAIL PESANAN\n';
+    orderDetails += '━━━━━━━━━━━━━━━━━━━━━\n\n';
+    
+    selectedItems.forEach(item => {
+        orderDetails += `📦 ${item.name}\n`;
+        orderDetails += `   ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}\n`;
+        orderDetails += `   Subtotal: Rp ${(item.price * item.quantity).toLocaleString('id-ID')}\n\n`;
+    });
+    
+    orderDetails += '━━━━━━━━━━━━━━━━━━━━━\n';
+    orderDetails += `📋 Total Item: ${count}\n`;
+    orderDetails += `💰 Subtotal: Rp ${subtotal.toLocaleString('id-ID')}\n`;
+    orderDetails += `🚚 Ongkir: Rp ${SHIPPING_COST.toLocaleString('id-ID')}\n`;
+    orderDetails += `━━━━━━━━━━━━━━━━━━━━━\n`;
+    orderDetails += `✨ TOTAL: Rp ${total.toLocaleString('id-ID')}\n\n`;
+    orderDetails += '✅ Terima kasih telah berbelanja di Kriuk Kita!\n';
+    orderDetails += '📱 Kami akan segera menghubungi Anda untuk konfirmasi.';
+    
+    // Tampilkan alert konfirmasi
+    if (confirm(orderDetails + '\n\nLanjutkan checkout?')) {
+        // Proses checkout
+        processCheckout(selectedItems, total);
+    }
+}
+
+
+// ==========================================
+// FUNGSI 11: PROCESS CHECKOUT
+// ==========================================
+function processCheckout(selectedItems, total) {
+    // Simulasi proses checkout
+    
+    // 1. Hapus item yang sudah dicheckout dari cart
+    cart = cart.filter(item => !item.selected);
+    localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
+    
+    // 2. Tampilkan pesan sukses
+    alert(`
+✅ CHECKOUT BERHASIL!
+
+Total Pembayaran: Rp ${total.toLocaleString('id-ID')}
+
+Pesanan Anda sedang diproses.
+Kami akan menghubungi Anda segera.
+
+Terima kasih! 🔥
+    `);
+    
+    // 3. Refresh halaman
+    loadCart();
+    
+    // 4. Optional: Redirect ke halaman sukses atau produk
+    // setTimeout(() => {
+    //     window.location.href = 'produk.html';
+    // }, 2000);
 }

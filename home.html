@@ -12,13 +12,14 @@
     
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/styles.css">
 
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="index.html">
+            <a class="navbar-brand d-flex align-items-center" href="home.html">
                 <span class="brand-icon">🔥</span>
                 <span class="brand-text ms-2">Food Court</span>
             </a>
@@ -28,7 +29,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center" id="navbarList">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Tentang Kami</a>
+                        <a class="nav-link active" href="home.html">Tentang Kami</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="pages/produk.html">Produk</a>
@@ -144,142 +145,50 @@
 
     <script src="./js/global/auth.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async function () {
-            // A. Cek Status Login
-            try {
-                // Pastikan auth.js sudah dimuat dan variabel 'db' tersedia
-                if (typeof db === 'undefined') {
-                    console.error("Supabase client belum siap. Cek auth.js");
-                    return;
-                }
+<script>
+function updateNavbar(session) {
+    const navbarList = document.getElementById('navbarList');
 
-                const session = await checkSession();
-                updateNavbar(session);
-            } catch (error) {
-                console.error("Gagal cek session:", error);
-            }
-
-            // B. Load Produk dari Database
-            await loadFeaturedProducts();
-        });
-
-        // ==========================================
-        // FUNGSI UPDATE NAVBAR (LOGIC BARU)
-        // ==========================================
-        function updateNavbar(session) {
-            const navbarList = document.getElementById('navbarList');
-
-            if (session) {
-                // === JIKA LOGIN ===
-                // Tampilkan Link Dashboard & Tombol Logout saja
-                // Sembunyikan link navigasi biasa
-                
-                const userName = session.user.user_metadata.full_name || session.user.email.split('@')[0];
-                
-                navbarList.innerHTML = `
-                    <li class="nav-item">
-                        <a class="nav-link fw-bold text-orange" href="dashboard.html">Dashboard Admin</a>
-                    </li>
-                    <li class="nav-item ms-lg-3 d-flex align-items-center gap-2">
-                        <span class="text-muted small me-2 d-none d-lg-block">Halo, <b>${userName}</b></span>
-                        <button class="btn btn-outline-danger btn-sm" onclick="handleLogout()">Logout</button>
-                    </li>
-                `;
-            } else {
-                // === JIKA BELUM LOGIN (GUEST) ===
-                // Tampilkan Menu Lengkap & Tombol Login
-                
-                navbarList.innerHTML = `
-                    <li class="nav-item">
-                        <a class="nav-link active" href="index.html">Tentang Kami</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/produk.html">Produk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/keranjang.html">Keranjang</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="pages/kontak.html">Kontak</a>
-                    </li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="btn btn-orange" href="login.html">Login</a>
-                    </li>
-                `;
-            }
-        }
-
-        // Fungsi Logout
-        async function handleLogout() {
-            if (confirm('Apakah Anda yakin ingin keluar?')) {
-                await logout();
-                window.location.reload();
-            }
-        }
-
-        // Fungsi Load Produk (Dari Supabase)
-        async function loadFeaturedProducts() {
-            const container = document.getElementById('featuredProducts');
-
-            try {
-                // Query ke Supabase
-                const { data, error } = await db
-                    .from('products')
-                    .select('*')
-                    .eq('featured', true)
-                    .limit(4)
-                    .order('id', { ascending: false });
-
-                if (error) throw error;
-
-                // Jika data kosong
-                if (!data || data.length === 0) {
-                    container.innerHTML = `
-                        <div class="col-12 text-center py-5">
-                            <p class="text-muted">Belum ada produk unggulan saat ini.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // Render Data
-                container.innerHTML = data.map(product => `
-                    <div class="col-md-6 col-lg-3">
-                        <div class="product-card h-100">
-                            <img src="${product.image}" 
-                                 alt="${product.name}" 
-                                 class="product-image" 
-                                 onerror="this.src='https://placehold.co/400?text=No+Image'">
-                            
-                            <div class="p-3 d-flex flex-column h-100">
-                                <h5 class="product-title text-truncate">${product.name}</h5>
-                                
-                                <p class="product-price text-orange fw-bold">
-                                    Rp ${parseInt(product.price).toLocaleString('id-ID')}
-                                </p>
-                                
-                                <div class="mt-auto d-flex justify-content-between align-items-center">
-                                    <span class="badge bg-warning text-dark">
-                                        ⭐ ${product.rating || 5.0}
-                                    </span>
-                                    <a href="#" class="btn btn-sm btn-outline-orange">Lihat</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-
-            } catch (error) {
-                console.error('Error loading products:', error);
-                container.innerHTML = `
-                    <div class="col-12 text-center text-danger">
-                        <p>Gagal memuat produk dari server.</p>
-                        <small>${error.message}</small>
-                    </div>
-                `;
-            }
-        }
-    </script>
+    if (session) {
+        // === LOGIN ===
+        navbarList.innerHTML = `
+            <li class="nav-item">
+                <a class="nav-link active" href="home.html">Tentang Kami</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages/produk.html">Produk</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages/keranjang.html">Keranjang</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages/kontak.html">Kontak</a>
+            </li>
+            <li class="nav-item ms-lg-3">
+                <button class="btn btn-outline-danger" onclick="handleLogout()">Logout</button>
+            </li>
+        `;
+    } else {
+        // === GUEST ===
+        navbarList.innerHTML = `
+            <li class="nav-item">
+                <a class="nav-link active" href="home.html">Tentang Kami</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages/produk.html">Produk</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages/keranjang.html">Keranjang</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="pages/kontak.html">Kontak</a>
+            </li>
+            <li class="nav-item ms-lg-3">
+                <a class="btn btn-orange" href="login.html">Login</a>
+            </li>
+        `;
+    }
+}
+</script>
 </body>
 </html>

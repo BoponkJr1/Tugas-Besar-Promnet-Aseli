@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Kriuk Kita</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="./css/dashboard.css">
+
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-2 sidebar p-4 d-none d-md-block">
+                <a href="index.html" class="d-flex align-items-center mb-4 text-decoration-none text-dark">
+                    <span class="fs-4 me-2">🔥</span>
+                    <span class="fs-5 fw-bold">Admin Panel</span>
+                </a>
+                
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="bi bi-grid-fill me-2"></i> Produk
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html" target="_blank">
+                            <i class="bi bi-box-arrow-up-right me-2"></i> Lihat Website
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="mt-auto pt-5">
+                    <button onclick="handleLogout()" class="btn btn-outline-danger w-100">
+                        <i class="bi bi-box-arrow-left"></i> Logout
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-md-9 col-lg-10 p-4">
+                <div class="d-md-none d-flex justify-content-between align-items-center mb-4">
+                    <span class="fw-bold">🔥 Admin Panel</span>
+                    <button onclick="handleLogout()" class="btn btn-sm btn-danger">Logout</button>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold">Kelola Produk</h2>
+                        <p class="text-muted" id="welcomeMsg">Selamat datang, Admin.</p>
+                    </div>
+                    <button class="btn btn-primary bg-gradient border-0" style="background-color: #FF6B35;" 
+                            data-bs-toggle="modal" data-bs-target="#productModal" onclick="resetForm()">
+                        <i class="bi bi-plus-lg"></i> Tambah Produk
+                    </button>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <h6 class="text-muted">Total Produk</h6>
+                            <h3 class="fw-bold mb-0" id="statTotal">0</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card" style="border-left-color: #dc3545;">
+                            <h6 class="text-muted">Stok Menipis (< 10)</h6>
+                            <h3 class="fw-bold mb-0 text-danger" id="statLowStock">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm rounded-3">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th class="ps-4">Produk</th>
+                                        <th>Kategori</th>
+                                        <th>Harga</th>
+                                        <th>Stok</th>
+                                        <th>Unggulan?</th>
+                                        <th class="text-end pe-4">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="productsTableBody">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5 text-muted">
+                                            <div class="spinner-border text-warning" role="status"></div>
+                                            <div class="mt-2">Memuat data...</div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="modalTitle">Tambah Produk Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+                        
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <label class="form-label small fw-bold">Nama Produk</label>
+                                <input type="text" class="form-control" id="productName" required placeholder="Contoh: Keripik Singkong Balado">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-bold">Kategori</label>
+                                <select class="form-select" id="productCategory" required>
+                                    <option value="keripik">🥔 Keripik</option>
+                                    <option value="makaroni">🍝 Makaroni</option>
+                                    <option value="kerupuk">🦐 Kerupuk</option>
+                                    <option value="kacang">🥜 Kacang</option>
+                                    <option value="paket">📦 Paket Bundling</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold">Harga (Rp)</label>
+                                <input type="number" class="form-control" id="productPrice" required min="1000">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold">Stok</label>
+                                <input type="number" class="form-control" id="productStock" required min="0">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-bold">Rating</label>
+                                <input type="number" class="form-control" id="productRating" required min="0" max="5" step="0.1" value="5.0">
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">URL Gambar</label>
+                                <input type="url" class="form-control" id="productImage" required placeholder="https://...">
+                                <div class="form-text">Ambil link gambar dari internet (Google Images -> Klik Kanan -> Copy Image Address).</div>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label small fw-bold">Deskripsi</label>
+                                <textarea class="form-control" id="productDescription" rows="3"></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="form-check form-switch p-3 bg-light rounded border">
+                                    <input class="form-check-input" type="checkbox" id="productFeatured">
+                                    <label class="form-check-label ms-2" for="productFeatured">
+                                        <b>Tampilkan di Halaman Depan?</b> (Produk Unggulan)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" style="background-color: #FF6B35; border:none;" onclick="saveProduct()">Simpan Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+    <script src="./js/global/auth.js"></script>
+
+    <script src="./js/admin/admin.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // A. Cek Session
+            if (typeof checkSession === 'undefined') {
+                console.error("Auth.js belum dimuat!");
+                return;
+            }
+
+            const session = await checkSession();
+            
+            // Jika Tidak Login -> Tendang ke Login
+            if (!session) {
+                alert("Akses Ditolak: Silakan login terlebih dahulu.");
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Tampilkan Nama Admin
+            const userName = session.user.user_metadata.full_name || session.user.email;
+            document.getElementById('welcomeMsg').innerText = `Login sebagai: ${userName}`;
+
+            // B. Load Data (Fungsi ini ada di admin.js)
+            // Kita tambahkan sedikit delay agar auth siap
+            if (typeof loadProducts === 'function') {
+                await loadProducts();
+                updateStats(); // Hitung statistik sederhana
+            }
+        });
+
+        async function handleLogout() {
+            if(confirm("Yakin ingin keluar dari Dashboard?")) {
+                await logout();
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Fungsi Tambahan: Menghitung Statistik untuk Kartu di Atas
+        function updateStats() {
+            // products adalah variabel global dari admin.js
+            if (typeof products !== 'undefined') {
+                document.getElementById('statTotal').innerText = products.length;
+                const lowStock = products.filter(p => p.stock < 10).length;
+                document.getElementById('statLowStock').innerText = lowStock;
+            }
+        }
+    </script>
+</body>
+</html>

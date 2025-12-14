@@ -1,9 +1,4 @@
-/* ==========================================
-   KRIUK KITA - LOGIN.CSS
-   CSS khusus untuk Halaman Login
-   ========================================== */
-
-/* Login Container */
+/* Login Form */
 .login-container {
     min-height: 100vh;
     display: flex;
@@ -28,19 +23,11 @@
     margin-bottom: 1rem;
 }
 
-/* Form Styles */
 .form-control:focus {
     border-color: var(--orange-primary);
     box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
 }
 
-.form-label {
-    font-weight: 600;
-    color: var(--text-dark);
-    margin-bottom: 0.5rem;
-}
-
-/* Divider */
 .divider {
     display: flex;
     align-items: center;
@@ -58,10 +45,8 @@
 .divider span {
     padding: 0 1rem;
     color: #666;
-    font-size: 0.9rem;
 }
 
-/* Google Button */
 .google-btn {
     background: white;
     border: 2px solid #ddd;
@@ -74,36 +59,9 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    width: 100%;
-    cursor: pointer;
 }
 
 .google-btn:hover {
     border-color: var(--orange-primary);
     background: var(--gray-light);
-    transform: translateY(-2px);
-}
-
-/* Links */
-.login-card a {
-    color: var(--orange-primary);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.login-card a:hover {
-    color: var(--orange-dark);
-    text-decoration: underline;
-}
-
-/* Responsive */
-@media (max-width: 576px) {
-    .login-card {
-        padding: 2rem 1.5rem;
-    }
-    
-    .login-icon {
-        font-size: 3rem;
-    }
 }

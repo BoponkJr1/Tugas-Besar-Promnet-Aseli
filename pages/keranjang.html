@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang - Kriuk Kita</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="../css/keranjang.css">
 </head>
-<body>
-    <script>
-        // Protect this page - redirect if not logged in
-        if (typeof isLoggedIn === 'function' && !isLoggedIn()) {
-            alert('Anda harus login terlebih dahulu!');
-            window.location.href = '../login.html';
-        }
-    </script>
 
-    <!-- Navbar -->
+<body>
+
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="../index.html">
@@ -27,28 +23,17 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../index.html">Tentang Kami</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="produk.html">Produk</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="keranjang.html">Keranjang</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="kontak.html">Kontak</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-orange ms-lg-3" href="../login.html" id="loginBtn">Login</a>
-                    </li>
+                <ul class="navbar-nav ms-auto align-items-center" id="navbarList">
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="produk.html">Produk</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="keranjang.html">Keranjang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-orange" href="../login.html">Login</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Header -->
     <section style="padding-top: 100px; padding-bottom: 40px; background: linear-gradient(135deg, #FEF3E2 0%, #FFE8CC 100%);">
         <div class="container text-center">
             <h1 class="mb-3">🛒 Keranjang Belanja</h1>
@@ -56,195 +41,373 @@
         </div>
     </section>
 
-    <!-- Cart Content -->
     <section class="py-5">
         <div class="container">
             <div class="row">
-                <!-- Cart Items -->
                 <div class="col-lg-8">
-                    <div id="cartItems">
-                        <!-- Cart items will be loaded here -->
+                    
+                    <div class="d-flex align-items-center mb-3 p-3 bg-white rounded border">
+                        <div class="form-check mb-0">
+                            <input class="form-check-input custom-checkbox" type="checkbox" id="selectAll" onchange="toggleSelectAll()">
+                            <label class="form-check-label ms-2 fw-bold user-select-none" for="selectAll">Pilih Semua</label>
+                        </div>
+                        <div class="ms-auto">
+                            <button class="btn btn-sm text-danger fw-bold" onclick="deleteSelected()">Hapus Pilihan</button>
+                        </div>
                     </div>
+
+                    <div id="cartItems">
+                        </div>
+
                     <div id="emptyCart" class="text-center py-5" style="display: none;">
                         <div style="font-size: 5rem; opacity: 0.3;">🛒</div>
-                        <h3 class="mt-3">Keranjang Anda Kosong</h3>
-                        <p class="text-muted">Yuk, mulai belanja camilan favorit Anda!</p>
-                        <a href="produk.html" class="btn btn-orange mt-3">Lihat Produk</a>
+                        <h3 class="mt-3">Keranjang Masih Kosong</h3>
+                        <p class="text-muted">Yuk, isi dengan camilan favoritmu!</p>
+                        <a href="produk.html" class="btn btn-orange mt-3">Mulai Belanja</a>
                     </div>
                 </div>
 
-                <!-- Cart Summary -->
                 <div class="col-lg-4">
-                    <div class="cart-summary" id="cartSummary" style="display: none;">
-                        <h4 class="mb-4">Ringkasan Pesanan</h4>
-                        
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Subtotal</span>
-                            <span id="subtotal">Rp 0</span>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Ongkir</span>
-                            <span id="shipping">Rp 15.000</span>
-                        </div>
-                        
-                        <hr>
-                        
-                        <div class="d-flex justify-content-between mb-4">
-                            <strong>Total</strong>
-                            <strong class="text-orange" id="total">Rp 0</strong>
-                        </div>
+                    <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-4">Ringkasan Belanja</h5>
+                            
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Total Harga (<span id="selectedCount">0</span> barang)</span>
+                                <span class="fw-bold" id="subtotal">Rp 0</span>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Ongkos Kirim</span>
+                                <span class="fw-bold" id="shipping">Rp 0</span>
+                            </div>
 
-                        <button class="btn btn-orange w-100 mb-2" onclick="checkout()">
-                            Checkout
-                        </button>
-                        
-                        <a href="produk.html" class="btn btn-outline-secondary w-100">
-                            Lanjut Belanja
-                        </a>
+                            <hr>
+
+                            <div class="d-flex justify-content-between mb-4">
+                                <strong class="fs-5">Total Tagihan</strong>
+                                <strong class="fs-5 text-orange" id="total">Rp 0</strong>
+                            </div>
+
+                            <button class="btn btn-orange w-100 py-2 fw-bold" id="btnCheckout" onclick="openCheckoutModal()" disabled>
+                                Beli (<span id="btnCount">0</span>)
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
-        <div class="container text-center">
-            <div class="mb-3">🔥</div>
-            <h3 class="text-orange mb-2">Kriuk Kita</h3>
-            <p class="text-muted">Camilan kriuk untuk setiap momen</p>
-            <p class="text-muted mt-3">© 2024 Kriuk Kita. All rights reserved.</p>
+    <div class="modal fade" id="checkoutModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="modalTitle">Konfirmasi Pesanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    
+                    <div id="stepSummary">
+                        <h6 class="fw-bold mb-3">Barang yang dibeli:</h6>
+                        <div id="checkoutList" class="mb-3" style="max-height: 150px; overflow-y: auto;">
+                            </div>
+                        
+                        <div class="mb-4">
+                            <label for="addressInput" class="form-label fw-bold small text-muted">Alamat Pengiriman</label>
+                            <textarea class="form-control bg-light" id="addressInput" rows="3" placeholder="Masukkan alamat lengkap (Jalan, RT/RW, Kota)..." required></textarea>
+                        </div>
+
+                        <div class="bg-light p-3 rounded mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Subtotal</span>
+                                <span id="modalSubtotal">Rp 0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Ongkir</span>
+                                <span id="modalShipping">Rp 0</span>
+                            </div>
+                            <div class="border-top mt-2 pt-2 d-flex justify-content-between">
+                                <strong>Total Bayar</strong>
+                                <strong class="text-orange fs-5" id="modalTotal">Rp 0</strong>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-orange w-100 py-2 fw-bold" onclick="showPayment()">
+                            Lanjut ke Pembayaran <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <div id="stepPayment" style="display: none;">
+                        <div class="text-center">
+                            <h5 class="fw-bold mb-2">Scan QRIS</h5>
+                            <p class="text-muted small mb-4">Scan kode di bawah ini untuk membayar</p>
+                            
+                            <div class="qr-container">
+                                <img src="" id="qrImage" class="qr-image" alt="QR Code Pembayaran">
+                                <p class="mt-2 fw-bold mb-0">KRIUK KITA MERCHANT</p>
+                                <small class="text-muted" id="qrRef">Ref: INV/...</small>
+                            </div>
+
+                            <div class="alert alert-info small text-start">
+                                <i class="bi bi-geo-alt-fill"></i> <strong>Dikirim ke:</strong><br>
+                                <span id="displayAddress" class="text-muted">...</span>
+                            </div>
+
+                            <button class="btn btn-success w-100 py-2 fw-bold" onclick="completeOrder()">
+                                <i class="bi bi-check-circle-fill"></i> Selesai & Bayar
+                            </button>
+                            
+                            <button class="btn btn-link text-muted mt-2 text-decoration-none" onclick="backToSummary()">
+                                <small>Kembali</small>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-    </footer>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <script src="../js/auth.js"></script>
-    <script src="../js/app.js"></script>
+
     <script>
         const SHIPPING_COST = 15000;
         let cart = [];
+        let checkoutModal;
 
-        // Load cart from localStorage
+        // 1. Inisialisasi
+        document.addEventListener('DOMContentLoaded', async function () {
+            checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+
+            // Navbar Logic
+            if (typeof checkSession === 'function') {
+                try {
+                    const session = await checkSession();
+                    updateNavbar(session); 
+                } catch (e) { console.log("Guest Mode"); }
+            }
+            
+            loadCart();
+        });
+
+        // 2. Load Cart
         function loadCart() {
-            cart = JSON.parse(localStorage.getItem('kriukKitaCart') || '[]');
-            displayCart();
-            updateSummary();
+            const savedCart = localStorage.getItem('kriukKitaCart');
+            cart = savedCart ? JSON.parse(savedCart) : [];
+            cart.forEach(item => { if (typeof item.selected === 'undefined') item.selected = false; });
+            renderCart();
+            calculateTotal();
         }
 
-        // Display cart items
-        function displayCart() {
-            const cartItemsEl = document.getElementById('cartItems');
-            const emptyCartEl = document.getElementById('emptyCart');
-            const cartSummaryEl = document.getElementById('cartSummary');
+        // 3. Render Cart
+        function renderCart() {
+            const container = document.getElementById('cartItems');
+            const emptyEl = document.getElementById('emptyCart');
+            const selectAllBox = document.getElementById('selectAll');
 
             if (cart.length === 0) {
-                cartItemsEl.innerHTML = '';
-                emptyCartEl.style.display = 'block';
-                cartSummaryEl.style.display = 'none';
+                container.innerHTML = '';
+                emptyEl.style.display = 'block';
+                if(selectAllBox) { selectAllBox.disabled = true; selectAllBox.checked = false; }
                 return;
             }
 
-            emptyCartEl.style.display = 'none';
-            cartSummaryEl.style.display = 'block';
+            emptyEl.style.display = 'none';
+            if(selectAllBox) {
+                selectAllBox.disabled = false;
+                selectAllBox.checked = cart.every(item => item.selected);
+            }
 
-            cartItemsEl.innerHTML = cart.map((item, index) => `
+            container.innerHTML = cart.map((item, index) => `
                 <div class="cart-item">
-                    <div class="row align-items-center">
-                        <div class="col-md-2 col-4">
-                            <img src="${item.image}" alt="${item.name}" class="cart-item-image w-100">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3">
+                            <input class="form-check-input custom-checkbox" type="checkbox" 
+                                onchange="toggleItem(${index})" ${item.selected ? 'checked' : ''}>
                         </div>
-                        <div class="col-md-4 col-8">
-                            <h5 class="mb-1">${item.name}</h5>
-                            <p class="text-muted small mb-0">${item.description}</p>
+                        <div class="me-3">
+                            <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.src='https://placehold.co/80'">
                         </div>
-                        <div class="col-md-3 col-6 mt-3 mt-md-0">
-                            <div class="quantity-control">
-                                <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
-                                <span class="mx-3">${item.quantity}</span>
-                                <button class="quantity-btn" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
-                            </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1 text-truncate" style="max-width: 200px;">${item.name}</h6>
+                            <p class="text-orange fw-bold mb-0">Rp ${item.price.toLocaleString('id-ID')}</p>
                         </div>
-                        <div class="col-md-2 col-4 mt-3 mt-md-0 text-md-end">
-                            <p class="mb-0 fw-bold text-orange">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</p>
+                        <div class="d-flex align-items-center mx-3">
+                            <button class="quantity-btn" onclick="changeQty(${index}, -1)">-</button>
+                            <span class="mx-3 fw-bold" style="width: 20px; text-align: center;">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="changeQty(${index}, 1)">+</button>
                         </div>
-                        <div class="col-md-1 col-2 mt-3 mt-md-0 text-end">
-                            <button class="btn btn-sm btn-danger" onclick="removeItem(${index})">🗑️</button>
+                        <div>
+                            <button class="btn btn-sm text-danger" onclick="deleteItem(${index})"><i class="bi bi-trash"></i></button>
                         </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Update quantity
-        function updateQuantity(index, newQuantity) {
-            if (newQuantity < 1) {
-                removeItem(index);
-                return;
-            }
+        // 4. Kalkulasi Total
+        function calculateTotal() {
+            const selectedItems = cart.filter(item => item.selected);
+            const subtotal = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const count = selectedItems.reduce((sum, item) => sum + item.quantity, 0); 
+            const ongkir = selectedItems.length > 0 ? SHIPPING_COST : 0;
+            const total = subtotal + ongkir;
 
-            if (newQuantity > cart[index].stock) {
-                alert(`Stok ${cart[index].name} tidak mencukupi. Stok tersedia: ${cart[index].stock}`);
-                return;
-            }
+            document.getElementById('selectedCount').innerText = count;
+            document.getElementById('subtotal').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            document.getElementById('shipping').innerText = `Rp ${ongkir.toLocaleString('id-ID')}`;
+            document.getElementById('total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+            document.getElementById('btnCount').innerText = count;
 
-            cart[index].quantity = newQuantity;
-            saveCart(cart);
-            loadCart();
+            const btnCheckout = document.getElementById('btnCheckout');
+            if(btnCheckout) btnCheckout.disabled = selectedItems.length === 0;
+            
+            localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
         }
 
-        // Remove item from cart
-        function removeItem(index) {
-            const itemName = cart[index].name;
-            if (confirm(`Hapus ${itemName} dari keranjang?`)) {
-                cart.splice(index, 1);
-                saveCart(cart);
-                loadCart();
-            }
+        // 5. Interaksi User
+        function toggleItem(index) { cart[index].selected = !cart[index].selected; renderCart(); calculateTotal(); }
+        function toggleSelectAll() {
+            const isChecked = document.getElementById('selectAll').checked;
+            cart.forEach(item => item.selected = isChecked);
+            renderCart(); calculateTotal();
+        }
+        function changeQty(index, change) {
+            const newQty = cart[index].quantity + change;
+            if (newQty < 1) { deleteItem(index); return; }
+            cart[index].quantity = newQty;
+            renderCart(); calculateTotal();
+        }
+        function deleteItem(index) {
+            if (confirm(`Hapus ${cart[index].name}?`)) { cart.splice(index, 1); renderCart(); calculateTotal(); }
+        }
+        function deleteSelected() {
+            if (!cart.some(i => i.selected)) return alert("Pilih barang dulu.");
+            if (confirm("Hapus barang terpilih?")) { cart = cart.filter(i => !i.selected); renderCart(); calculateTotal(); }
         }
 
-        // Update summary
-        function updateSummary() {
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const total = subtotal + (cart.length > 0 ? SHIPPING_COST : 0);
+        // ==========================================
+        // 6. LOGIKA MODAL CHECKOUT
+        // ==========================================
 
-            document.getElementById('subtotal').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
-            document.getElementById('total').textContent = `Rp ${total.toLocaleString('id-ID')}`;
-        }
+        function openCheckoutModal() {
+            const selectedItems = cart.filter(item => item.selected);
+            if (selectedItems.length === 0) return;
 
-        // Checkout
-        function checkout() {
-            if (cart.length === 0) {
-                alert('Keranjang Anda kosong!');
-                return;
-            }
-
-            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            // Hitung Ulang untuk Modal
+            const subtotal = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const total = subtotal + SHIPPING_COST;
+
+            // Render List
+            const listContainer = document.getElementById('checkoutList');
+            listContainer.innerHTML = selectedItems.map(item => `
+                <div class="order-summary-item">
+                    <div><span class="fw-bold">${item.name}</span> <small class="text-muted">x${item.quantity}</small></div>
+                    <div class="fw-bold">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</div>
+                </div>
+            `).join('');
+
+            // Update Angka
+            document.getElementById('modalSubtotal').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            document.getElementById('modalShipping').innerText = `Rp ${SHIPPING_COST.toLocaleString('id-ID')}`;
+            document.getElementById('modalTotal').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+
+            // Reset View
+            document.getElementById('stepSummary').style.display = 'block';
+            document.getElementById('stepPayment').style.display = 'none';
+            document.getElementById('modalTitle').innerText = 'Konfirmasi Pesanan';
             
-            const message = `Terima kasih telah berbelanja di Kriuk Kita!
+            // Kosongkan alamat jika belum ada (opsional)
+            // document.getElementById('addressInput').value = '';
 
-Detail Pesanan:
-${cart.map(item => `- ${item.name} (${item.quantity}x) = Rp ${(item.price * item.quantity).toLocaleString('id-ID')}`).join('\n')}
-
-Subtotal: Rp ${subtotal.toLocaleString('id-ID')}
-Ongkir: Rp ${SHIPPING_COST.toLocaleString('id-ID')}
-Total: Rp ${total.toLocaleString('id-ID')}
-
-Pesanan Anda sedang diproses.`;
-
-            alert(message);
-            
-            // Clear cart after checkout
-            localStorage.removeItem('kriukKitaCart');
-            cart = [];
-            loadCart();
+            checkoutModal.show();
         }
 
-        // Load cart on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCart();
-        });
+        function showPayment() {
+            // 1. Validasi Alamat
+            const address = document.getElementById('addressInput').value.trim();
+            if (!address) {
+                alert("Mohon isi alamat pengiriman terlebih dahulu!");
+                document.getElementById('addressInput').focus();
+                return;
+            }
+
+            // Ganti Judul
+            document.getElementById('modalTitle').innerText = 'Pembayaran';
+            
+            // Generate QR Random
+            const randomRef = 'INV-' + Math.floor(Math.random() * 1000000);
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PAY-${randomRef}`;
+            
+            document.getElementById('qrImage').src = qrUrl;
+            document.getElementById('qrRef').innerText = `Ref: ${randomRef}`;
+            
+            // Tampilkan Alamat di halaman Pembayaran
+            document.getElementById('displayAddress').innerText = address;
+
+            // Switch View
+            document.getElementById('stepSummary').style.display = 'none';
+            document.getElementById('stepPayment').style.display = 'block';
+        }
+
+        function backToSummary() {
+            document.getElementById('stepSummary').style.display = 'block';
+            document.getElementById('stepPayment').style.display = 'none';
+            document.getElementById('modalTitle').innerText = 'Konfirmasi Pesanan';
+        }
+
+        function completeOrder() {
+            const btn = event.target;
+            const oldText = btn.innerHTML;
+            btn.innerHTML = 'Memproses...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // 1. Hapus item yang dibeli
+                cart = cart.filter(item => !item.selected);
+                
+                // 2. Simpan
+                localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
+                
+                // 3. Tutup Modal
+                checkoutModal.hide();
+                
+                // 4. Alert & Refresh
+                alert("✅ Pembayaran Berhasil!\nTerima kasih telah berbelanja.");
+                renderCart();
+                calculateTotal();
+
+                btn.innerHTML = oldText;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        // 7. Navbar Logic
+        function updateNavbar(session) {
+            const navbarList = document.getElementById('navbarList');
+            if (!navbarList) return;
+            if (session) {
+                const userName = session.user.user_metadata.full_name || session.user.email.split('@')[0];
+                navbarList.innerHTML = `
+                    <li class="nav-item"><a class="nav-link" href="produk.html">Lanjut Belanja</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="keranjang.html">Keranjang</a></li>
+                    <li class="nav-item ms-lg-3 d-flex align-items-center gap-2">
+                        <span class="text-muted small">Halo, <b>${userName}</b></span>
+                        <button class="btn btn-outline-danger btn-sm" onclick="logout().then(()=>window.location.reload())">Logout</button>
+                    </li>
+                `;
+            } else {
+                navbarList.innerHTML = `
+                    <li class="nav-item"><a class="nav-link" href="../index.html">Tentang Kami</a></li>
+                    <li class="nav-item"><a class="nav-link" href="produk.html">Produk</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="keranjang.html">Keranjang</a></li>
+                    <li class="nav-item"><a class="nav-link" href="kontak.html">Kontak</a></li>
+                    <li class="nav-item ms-lg-3"><a class="btn btn-orange" href="../login.html">Login</a></li>
+                `;
+            }
+        }
     </script>
 </body>
 </html>

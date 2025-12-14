@@ -1,0 +1,51 @@
+/* Hero Section - RESPONSIVE BACKGROUND */
+.hero-section {
+    min-height: 100vh;
+    padding-top: 5rem;
+    background: linear-gradient(135deg, #FEF3E2 0%, #FFE8CC 100%);
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .hero-section {
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                    url('https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=1600') center/cover;
+    }
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+}
+
+@media (min-width: 768px) {
+    .hero-title {
+        color: white;
+    }
+}
+
+.hero-desc {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    margin-bottom: 2rem;
+    color: #555;
+}
+
+@media (min-width: 768px) {
+    .hero-desc {
+        color: rgba(255,255,255,0.95);
+    }
+}
+
+.hero-image {
+    max-width: 80%;
+    height: auto;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}

@@ -1,0 +1,41 @@
+   body {
+            background-color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+        }
+
+        .nav-link {
+            color: #4b5563;
+            font-weight: 500;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #FFF0E6; /* Warna Oranye Muda */
+            color: #FF6B35; /* Warna Oranye Utama */
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            height: 100%;
+            border-left: 4px solid #FF6B35;
+        }
+        
+        .img-thumb-admin {
+            width: 50px; 
+            height: 50px; 
+            object-fit: cover; 
+            border-radius: 6px;
+        }

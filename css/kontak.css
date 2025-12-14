@@ -1,0 +1,13 @@
+/* Contact Page */
+.contact-info {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.contact-icon {
+    font-size: 2rem;
+    color: var(--orange-primary);
+    margin-bottom: 1rem;
+}

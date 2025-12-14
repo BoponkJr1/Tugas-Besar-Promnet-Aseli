@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Court</title>
+    <title>Food Court - Kriuk Kita</title>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/home.css">
+
 </head>
+
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="index.html">
@@ -19,7 +26,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center" id="navbarList">
                     <li class="nav-item">
                         <a class="nav-link active" href="index.html">Tentang Kami</a>
                     </li>
@@ -32,31 +39,33 @@
                     <li class="nav-item">
                         <a class="nav-link" href="pages/kontak.html">Kontak</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="btn btn-orange ms-lg-3" href="login.html" id="loginBtn">Login</a>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-orange" href="login.html">Login</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero-section">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
                     <h1 class="hero-title">Camilan <span class="text-orange">Kriuk</span><br>Untuk Setiap Momen</h1>
-                    <p class="hero-desc">Nikmati sensasi kriuk yang menggoda dengan camilan kering pilihan kami. Dibuat dari bahan berkualitas untuk pengalaman ngemil yang tak terlupakan!</p>
-                    <a href="pages/produk.html" class="btn btn-orange btn-lg">JELAJAHI PRODUK</a>
+                    <p class="hero-desc">Nikmati sensasi kriuk yang menggoda dengan camilan kering pilihan kami. Dibuat
+                        dari bahan berkualitas untuk pengalaman ngemil yang tak terlupakan!</p>
+                    <div id="hero-cta">
+                        <a href="pages/produk.html" class="btn btn-orange btn-lg">JELAJAHI PRODUK</a>
+                    </div>
                 </div>
                 <div class="col-lg-6 d-none d-lg-block text-center">
-                    <img src="assets/logo-kriuk.png" alt="Kriuk Kita Logo" class="hero-image" onerror="this.src='https://api.dicebear.com/7.x/shapes/svg?seed=kriuk&backgroundColor=FF6B35'">
+                    <img src="assets/logo-kriuk.png" alt="Kriuk Kita Logo" class="hero-image"
+                        onerror="this.src='https://api.dicebear.com/7.x/shapes/svg?seed=kriuk&backgroundColor=FF6B35'">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Kategori Section -->
     <section class="py-5 bg-light">
         <div class="container">
             <h2 class="text-center mb-5">Kategori Produk</h2>
@@ -89,34 +98,39 @@
         </div>
     </section>
 
-    <!-- Produk Unggulan -->
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-5">Produk Unggulan</h2>
             <div class="row g-4" id="featuredProducts">
-                <!-- Products will be loaded here by JavaScript -->
+                <div class="text-center">
+                    <div class="spinner-border text-orange" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Tentang Kami -->
     <section class="py-5 bg-light">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <h2 class="mb-4">Tentang Kriuk Kita</h2>
-                    <p class="mb-3">Kriuk Kita adalah produsen camilan kering berkualitas yang telah dipercaya oleh ribuan pelanggan di seluruh Indonesia.</p>
-                    <p class="mb-3">Kami menggunakan bahan-bahan pilihan dan proses produksi yang higienis untuk menghasilkan camilan yang tidak hanya lezat, tetapi juga aman untuk dikonsumsi.</p>
-                    <p>Dengan berbagai varian rasa dan jenis camilan, Kriuk Kita siap menemani setiap momen istimewa Anda!</p>
+                    <p class="mb-3">Kriuk Kita adalah produsen camilan kering berkualitas yang telah dipercaya oleh
+                        ribuan pelanggan di seluruh Indonesia.</p>
+                    <p class="mb-3">Kami menggunakan bahan-bahan pilihan dan proses produksi yang higienis untuk
+                        menghasilkan camilan yang tidak hanya lezat, tetapi juga aman untuk dikonsumsi.</p>
+                    <p>Dengan berbagai varian rasa dan jenis camilan, Kriuk Kita siap menemani setiap momen istimewa
+                        Anda!</p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="assets/about-image.jpg" alt="Tentang Kami" class="img-fluid rounded shadow" onerror="this.src='https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=600'">
+                    <img src="assets/about-image.jpg" alt="Tentang Kami" class="img-fluid rounded shadow"
+                        onerror="this.src='https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=600'">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-dark text-white py-4">
         <div class="container text-center">
             <div class="mb-3">🔥</div>
@@ -127,38 +141,143 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/app.js"></script>
+
+    <script src="./js/global/auth.js"></script>
+
     <script>
-        // Load featured products on home page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadFeaturedProducts();
+        document.addEventListener('DOMContentLoaded', async function () {
+            // A. Cek Status Login
+            try {
+                // Pastikan auth.js sudah dimuat dan variabel 'db' tersedia
+                if (typeof db === 'undefined') {
+                    console.error("Supabase client belum siap. Cek auth.js");
+                    return;
+                }
+
+                const session = await checkSession();
+                updateNavbar(session);
+            } catch (error) {
+                console.error("Gagal cek session:", error);
+            }
+
+            // B. Load Produk dari Database
+            await loadFeaturedProducts();
         });
 
-        async function loadFeaturedProducts() {
-            try {
-                const response = await fetch('data/products.json');
-                const data = await response.json();
-                const featured = data.products.filter(p => p.featured).slice(0, 4);
+        // ==========================================
+        // FUNGSI UPDATE NAVBAR (LOGIC BARU)
+        // ==========================================
+        function updateNavbar(session) {
+            const navbarList = document.getElementById('navbarList');
+
+            if (session) {
+                // === JIKA LOGIN ===
+                // Tampilkan Link Dashboard & Tombol Logout saja
+                // Sembunyikan link navigasi biasa
                 
-                const container = document.getElementById('featuredProducts');
-                container.innerHTML = featured.map(product => `
+                const userName = session.user.user_metadata.full_name || session.user.email.split('@')[0];
+                
+                navbarList.innerHTML = `
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold text-orange" href="dashboard.html">Dashboard Admin</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 d-flex align-items-center gap-2">
+                        <span class="text-muted small me-2 d-none d-lg-block">Halo, <b>${userName}</b></span>
+                        <button class="btn btn-outline-danger btn-sm" onclick="handleLogout()">Logout</button>
+                    </li>
+                `;
+            } else {
+                // === JIKA BELUM LOGIN (GUEST) ===
+                // Tampilkan Menu Lengkap & Tombol Login
+                
+                navbarList.innerHTML = `
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Tentang Kami</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/produk.html">Produk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/keranjang.html">Keranjang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="pages/kontak.html">Kontak</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <a class="btn btn-orange" href="login.html">Login</a>
+                    </li>
+                `;
+            }
+        }
+
+        // Fungsi Logout
+        async function handleLogout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                await logout();
+                window.location.reload();
+            }
+        }
+
+        // Fungsi Load Produk (Dari Supabase)
+        async function loadFeaturedProducts() {
+            const container = document.getElementById('featuredProducts');
+
+            try {
+                // Query ke Supabase
+                const { data, error } = await db
+                    .from('products')
+                    .select('*')
+                    .eq('featured', true)
+                    .limit(4)
+                    .order('id', { ascending: false });
+
+                if (error) throw error;
+
+                // Jika data kosong
+                if (!data || data.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-12 text-center py-5">
+                            <p class="text-muted">Belum ada produk unggulan saat ini.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render Data
+                container.innerHTML = data.map(product => `
                     <div class="col-md-6 col-lg-3">
-                        <div class="product-card">
-                            <img src="${product.image}" alt="${product.name}" class="product-image">
-                            <div class="p-3">
-                                <h5 class="product-title">${product.name}</h5>
-                                <p class="product-price">Rp ${product.price.toLocaleString('id-ID')}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span class="badge bg-warning text-dark">⭐ ${product.rating}</span>
-                                    <span class="text-muted small">Stok: ${product.stock}</span>
+                        <div class="product-card h-100">
+                            <img src="${product.image}" 
+                                 alt="${product.name}" 
+                                 class="product-image" 
+                                 onerror="this.src='https://placehold.co/400?text=No+Image'">
+                            
+                            <div class="p-3 d-flex flex-column h-100">
+                                <h5 class="product-title text-truncate">${product.name}</h5>
+                                
+                                <p class="product-price text-orange fw-bold">
+                                    Rp ${parseInt(product.price).toLocaleString('id-ID')}
+                                </p>
+                                
+                                <div class="mt-auto d-flex justify-content-between align-items-center">
+                                    <span class="badge bg-warning text-dark">
+                                        ⭐ ${product.rating || 5.0}
+                                    </span>
+                                    <a href="#" class="btn btn-sm btn-outline-orange">Lihat</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `).join('');
+
             } catch (error) {
                 console.error('Error loading products:', error);
+                container.innerHTML = `
+                    <div class="col-12 text-center text-danger">
+                        <p>Gagal memuat produk dari server.</p>
+                        <small>${error.message}</small>
+                    </div>
+                `;
             }
         }
     </script>

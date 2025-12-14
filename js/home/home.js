@@ -1,7 +1,3 @@
-// ==========================================
-// KRIUK KITA - HOME.JS
-// JavaScript khusus untuk Homepage
-// ==========================================
 
 // Load featured products on home page
 document.addEventListener('DOMContentLoaded', function() {

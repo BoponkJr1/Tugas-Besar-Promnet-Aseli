@@ -1,43 +1,64 @@
-// ==========================================
-// KRIUK KITA - ADMIN.JS (FIXED VERSION)
-// ==========================================
 
-// Variabel Global
+// Menyimpan semua produk dari database
 let products = [];
-let editingProductId = null;
-let productModal = null; // Kita inisialisasi nanti
 
-// Cek Library Supabase
+// Menyimpan ID produk yang sedang diedit
+// Jika null  mode tambah produk
+let editingProductId = null;
+
+// Instance modal Bootstrap KEtika DOM ready
+let productModal = null;
+
+
+// Pengeceakn liblary supabase
+
+// Pastikan variabel `db` dari auth.js tersedia
 if (typeof db === 'undefined') {
-    console.error("CRITICAL: Variabel 'db' tidak ditemukan. Pastikan auth.js dimuat SEBELUM admin.js");
+    console.error(
+        "CRITICAL: Variabel 'db' tidak ditemukan. " +
+        "Pastikan auth.js dimuat SEBELUM admin.js"
+    );
 }
 
-// 1. INISIALISASI SAAT HALAMAN DIMUAT
-document.addEventListener('DOMContentLoaded', async function() {
-    // Inisialisasi Modal Bootstrap dengan cara yang aman
+
+
+// Inisialisasi halaman
+document.addEventListener('DOMContentLoaded', async function () {
+
+    // Ambil elemen modal dari HTML
     const modalElement = document.getElementById('productModal');
+
     if (modalElement) {
-        // Gunakan getOrCreateInstance agar tidak bentrok dengan data-bs-toggle di HTML
         productModal = bootstrap.Modal.getOrCreateInstance(modalElement);
     }
 
-    // Cek apakah tabel ada, jika ada berarti kita di halaman dashboard
+    // Cek apakah tabel produk ada
+    // Jika ada  berarti kita di halaman dashboard admin
     const tableExists = document.getElementById('productsTableBody');
     if (tableExists) {
         await loadProducts();
     }
 });
 
-// 2. LOAD DATA DARI SUPABASE
+
+// Load data dari data base
+
 async function loadProducts() {
     const tbody = document.getElementById('productsTableBody');
     if (!tbody) return;
 
-    // Tampilkan Loading
-    tbody.innerHTML = '<tr><td colspan="6" class="text-center py-5"><div class="spinner-border text-orange"></div><div class="mt-2 text-muted">Sedang memuat data...</div></td></tr>';
+    // Tampilkan indikator loading di tabel
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="6" class="text-center py-5">
+                <div class="spinner-border text-orange"></div>
+                <div class="mt-2 text-muted">Sedang memuat data...</div>
+            </td>
+        </tr>
+    `;
 
     try {
-        // Ambil data terbaru dari database
+        // Query ke tabel products di Supabase
         const { data, error } = await db
             .from('products')
             .select('*')
@@ -45,52 +66,97 @@ async function loadProducts() {
 
         if (error) throw error;
 
+        // Simpan hasil query ke variabel global
         products = data;
+
+        // Tampilkan ke tabel HTML
         displayProducts();
-        
-        // Update statistik angka di atas dashboard
+
+        // Update statistik dashboard (jika fungsi tersedia)
         if (typeof updateDashboardStats === 'function') {
             updateDashboardStats();
         }
 
     } catch (error) {
         console.error('Error loadProducts:', error);
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-4">❌ Gagal memuat: ${error.message}</td></tr>`;
+
+        // Tampilkan pesan error ke tabel
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-danger py-4">
+                    Gagal memuat: ${error.message}
+                </td>
+            </tr>
+        `;
     }
 }
 
-// 3. TAMPILKAN DATA KE TABEL
+
+// Tampilkan data tabel dashboard
+
 function displayProducts() {
     const tbody = document.getElementById('productsTableBody');
-    
+
+    // Jika belum ada produk sama sekali
     if (products.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-5 text-muted">📦 Belum ada produk. Klik tombol <b>"Tambah Produk"</b>.</td></tr>`;
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center py-5 text-muted">
+                    Belum ada produk.
+                    Klik tombol <b>"Tambah Produk"</b>.
+                </td>
+            </tr>
+        `;
         return;
     }
 
+    // Render setiap produk ke baris tabel
     tbody.innerHTML = products.map(product => `
         <tr>
             <td class="ps-4">
                 <div class="d-flex align-items-center">
-                    <img src="${product.image}" class="img-thumb-admin me-3" 
-                         style="width: 50px; height: 50px; object-fit: cover; border-radius: 6px;"
-                         onerror="this.src='https://placehold.co/50?text=No+Img'">
+                    <img src="${product.image}"
+                        class="img-thumb-admin me-3"
+                        style="width:50px;height:50px;object-fit:cover;border-radius:6px;"
+                        onerror="this.src='https://placehold.co/50?text=No+Img'">
                     <div>
-                        <span class="fw-bold text-dark d-block">${product.name}</span>
+                        <span class="fw-bold d-block">${product.name}</span>
                         <small class="text-muted">ID: ${product.id}</small>
                     </div>
                 </div>
             </td>
-            <td><span class="badge bg-light text-dark border">${getCategoryName(product.category)}</span></td>
-            <td class="fw-bold text-secondary">Rp ${parseInt(product.price).toLocaleString('id-ID')}</td>
-            <td><span class="badge ${product.stock < 10 ? 'bg-danger' : 'bg-success'} rounded-pill">${product.stock} pcs</span></td>
-            <td>${product.featured ? '<span class="badge bg-warning text-dark">Ya</span>' : '<span class="text-muted small">Tidak</span>'}</td>
+
+            <td>
+                <span class="badge bg-light text-dark border">
+                    ${getCategoryName(product.category)}
+                </span>
+            </td>
+
+            <td class="fw-bold text-secondary">
+                Rp ${parseInt(product.price).toLocaleString('id-ID')}
+            </td>
+
+            <td>
+                <span class="badge ${product.stock < 10 ? 'bg-danger' : 'bg-success'} rounded-pill">
+                    ${product.stock} pcs
+                </span>
+            </td>
+
+            <td>
+                ${product.featured
+                    ? '<span class="badge bg-warning text-dark">Ya</span>'
+                    : '<span class="text-muted small">Tidak</span>'
+                }
+            </td>
+
             <td class="text-end pe-4">
                 <div class="btn-group">
-                    <button class="btn btn-sm btn-outline-primary" onclick="editProduct(${product.id})" title="Edit">
+                    <button class="btn btn-sm btn-outline-primary"
+                            onclick="editProduct(${product.id})">
                         <i class="bi bi-pencil"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct(${product.id})" title="Hapus">
+                    <button class="btn btn-sm btn-outline-danger"
+                            onclick="deleteProduct(${product.id})">
                         <i class="bi bi-trash"></i>
                     </button>
                 </div>
@@ -98,21 +164,29 @@ function displayProducts() {
         </tr>
     `).join('');
 }
+//  Update statistik Dashboard
 
-// 4. FUNGSI UPDATE STATISTIK (JIKA ADA ELEMENNYA)
 function updateDashboardStats() {
     const totalEl = document.getElementById('statTotal');
     const lowStockEl = document.getElementById('statLowStock');
-    
+
+    // Total produk
     if (totalEl) totalEl.innerText = products.length;
-    if (lowStockEl) lowStockEl.innerText = products.filter(p => p.stock < 10).length;
+
+    // Produk stok rendah (<10)
+    if (lowStockEl) {
+        lowStockEl.innerText = products.filter(p => p.stock < 10).length;
+    }
 }
 
-// 5. SIMPAN DATA (CREATE / UPDATE)
+
+
+//  Simpan Produk insert/update
+
 async function saveProduct() {
     const form = document.getElementById('productForm');
-    
-    // Validasi input HTML (required, type number, dll)
+
+    // Validasi HTML form
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -124,7 +198,7 @@ async function saveProduct() {
     btnSave.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menyimpan...';
     btnSave.disabled = true;
 
-    // Siapkan data object
+    // Ambil data dari input form
     const productData = {
         name: document.getElementById('productName').value.trim(),
         category: document.getElementById('productCategory').value,
@@ -140,43 +214,42 @@ async function saveProduct() {
         let error;
 
         if (editingProductId) {
-            // === MODE UPDATE ===
-            console.log("Mengupdate ID:", editingProductId); // Debugging
+            // MODE EDIT (UPDATE)
             const response = await db
                 .from('products')
                 .update(productData)
-                .eq('id', editingProductId); // Pastikan ID cocok
-            
+                .eq('id', editingProductId);
+
             error = response.error;
         } else {
-            // === MODE INSERT ===
-            console.log("Menambah produk baru"); // Debugging
+            // MODE TAMBAH (INSERT)
             const response = await db
                 .from('products')
                 .insert([productData]);
-            
+
             error = response.error;
         }
 
         if (error) throw error;
 
-        alert('✅ Data berhasil disimpan!');
-        
+        alert(' Data berhasil disimpan!');
+
         // Tutup modal
         if (productModal) productModal.hide();
-        
-        // Reset form dan reload data
+
+        // Reset form & reload data
         resetForm();
         await loadProducts();
 
     } catch (err) {
         console.error("Gagal simpan:", err);
-        // Pesan error khusus jika kena RLS Policy
+
         if (err.message.includes("row-level security")) {
-            alert("❌ GAGAL: Izin ditolak oleh Database. Cek RLS Policy di Supabase.");
+            alert(" Izin ditolak oleh database (RLS Policy).");
         } else {
-            alert('❌ Terjadi kesalahan: ' + err.message);
+            alert(' Terjadi kesalahan: ' + err.message);
         }
+
     } finally {
         // Kembalikan tombol
         btnSave.innerHTML = oldText;
@@ -184,15 +257,15 @@ async function saveProduct() {
     }
 }
 
-// 6. HAPUS DATA
+
+// HAPUS PRODUK
+
 async function deleteProduct(id) {
     const product = products.find(p => p.id === id);
     if (!product) return;
 
     if (confirm(`Apakah Anda yakin ingin menghapus "${product.name}"?`)) {
         try {
-            console.log("Menghapus ID:", id); // Debugging
-            
             const { error } = await db
                 .from('products')
                 .delete()
@@ -205,26 +278,27 @@ async function deleteProduct(id) {
 
         } catch (err) {
             console.error("Gagal hapus:", err);
+
             if (err.message.includes("row-level security")) {
-                alert("❌ GAGAL: Anda tidak memiliki izin menghapus data ini (Cek RLS).");
+                alert(" Anda tidak memiliki izin menghapus data ini.");
             } else {
-                alert('❌ Gagal menghapus: ' + err.message);
+                alert(' Gagal menghapus: ' + err.message);
             }
         }
     }
 }
 
-// 7. SIAPKAN FORM UNTUK EDIT
+// EDIT PRODUK
+
 function editProduct(id) {
     const product = products.find(p => p.id === id);
     if (!product) return;
 
     editingProductId = id;
-    
+
     // Ubah judul modal
-    const title = document.getElementById('modalTitle');
-    if (title) title.innerText = 'Edit Produk';
-    
+    document.getElementById('modalTitle').innerText = 'Edit Produk';
+
     // Isi form dengan data lama
     document.getElementById('productId').value = product.id;
     document.getElementById('productName').value = product.name;
@@ -236,32 +310,47 @@ function editProduct(id) {
     document.getElementById('productRating').value = product.rating;
     document.getElementById('productFeatured').checked = product.featured;
 
-    // Buka modal
+    // Tampilkan modal
     if (productModal) productModal.show();
 }
 
-// 8. RESET FORM (Dipanggil saat klik Tambah Produk atau setelah simpan)
+
+// 8. RESET FORM
+
 function resetForm() {
     editingProductId = null;
-    
-    const title = document.getElementById('modalTitle');
-    if (title) title.innerText = 'Tambah Produk Baru';
-    
+
+    document.getElementById('modalTitle').innerText = 'Tambah Produk Baru';
     document.getElementById('productForm').reset();
     document.getElementById('productId').value = '';
-    
-    // Set default values
+
+    // Nilai default
     document.getElementById('productStock').value = 10;
     document.getElementById('productRating').value = 5.0;
 }
 
-// HELPER: Format Kategori
-function getCategoryName(cat) { 
-    const list = {'keripik':'Keripik', 'makaroni':'Makaroni', 'kerupuk':'Kerupuk', 'kacang':'Kacang', 'paket':'Paket'}; 
-    return list[cat] || cat; 
+
+
+// Ubah kode kategori menjadi nama yang ramah
+function getCategoryName(cat) {
+    const list = {
+        keripik: 'Keripik',
+        makaroni: 'mie',
+        kerupuk: 'daging',
+        kacang: 'Kacang',
+        paket: 'Paket'
+    };
+    return list[cat] || cat;
 }
 
-function getCategoryIcon(cat) { 
-    const list = {'keripik':'🥔', 'makaroni':'🍝', 'kerupuk':'🦐', 'kacang':'🥜', 'paket':'📦'}; 
-    return list[cat] || '📦'; 
+// (Opsional) Icon kategori
+function getCategoryIcon(cat) {
+    const list = {
+        keripik: '🥔',
+        makaroni: '🍝',
+        kerupuk: '🦐',
+        kacang: '🥜',
+        paket: '📦'
+    };
+    return list[cat] || '📦';
 }

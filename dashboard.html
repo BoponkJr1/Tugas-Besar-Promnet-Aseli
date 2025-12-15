@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - Kriuk Kita</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-    <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <link rel="stylesheet" href="style/dashboard.css">
 </head>
+
 <body>
     <script>
-          (async function() {
+        (async function () {
             console.log('🔒 Checking authentication...');
-            
+
             const session = await checkSession();
-            
+
             if (!session) {
                 // Belum login, redirect ke login
                 console.warn('⚠️ Not logged in! Redirecting to login...');
@@ -28,14 +28,14 @@
                 window.location.href = 'login.html';
                 return;
             }
-            
+
             console.log('✅ User authenticated:', session.user.email);
-            
+
             // Update welcome message dengan nama user
-            const userName = session.user.user_metadata?.full_name || 
-                           session.user.email?.split('@')[0] || 
-                           'Admin';
-            
+            const userName = session.user.user_metadata?.full_name ||
+                session.user.email?.split('@')[0] ||
+                'Admin';
+
             const welcomeMsg = document.getElementById('welcomeMsg');
             if (welcomeMsg) {
                 welcomeMsg.textContent = `Selamat datang, ${userName}.`;
@@ -44,14 +44,13 @@
     </script>
     <div class="container-fluid">
         <div class="row">
-            <!-- SIDEBAR (Desktop Only) -->
+            <!-- SIDEBAR -->
             <div class="col-md-3 col-lg-2 sidebar p-4 d-none d-md-block">
-                <!-- Link ke Home dengan nama "Food Court" -->
                 <a href="home.html" class="d-flex align-items-center mb-4 text-decoration-none text-dark">
                     <span class="fs-4 me-2">🔥</span>
                     <span class="fs-5 fw-bold">Food Court</span>
                 </a>
-                
+
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="#">
@@ -86,11 +85,8 @@
                         <h2 class="fw-bold">Kelola Produk</h2>
                         <p class="text-muted" id="welcomeMsg">Selamat datang, Admin.</p>
                     </div>
-                    <button class="btn btn-primary bg-gradient border-0" 
-                            style="background-color: #FF6B35;" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#productModal" 
-                            onclick="resetForm()">
+                    <button class="btn btn-primary bg-gradient border-0" style="background-color: #FF6B35;"
+                        data-bs-toggle="modal" data-bs-target="#productModal" onclick="resetForm()">
                         <i class="bi bi-plus-lg"></i> Tambah Produk
                     </button>
                 </div>
@@ -153,7 +149,7 @@
                 <div class="modal-body">
                     <form id="productForm">
                         <input type="hidden" id="productId">
-                        
+
                         <div class="row g-3">
                             <div class="col-md-8">
                                 <label class="form-label small fw-bold">Nama Produk</label>
@@ -169,7 +165,7 @@
                                     <option value="paket">📦 Paket</option>
                                 </select>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold">Harga (Rp)</label>
                                 <input type="number" class="form-control" id="productPrice" required min="1000">
@@ -180,7 +176,8 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label small fw-bold">Rating</label>
-                                <input type="number" class="form-control" id="productRating" required min="0" max="5" step="0.1" value="5.0">
+                                <input type="number" class="form-control" id="productRating" required min="0" max="5"
+                                    step="0.1" value="5.0">
                             </div>
 
                             <div class="col-12">
@@ -206,9 +203,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
-                    <button type="button" class="btn btn-primary" 
-                            style="background-color: #FF6B35; border:none;" 
-                            onclick="saveProduct()">
+                    <button type="button" class="btn btn-primary" style="background-color: #FF6B35; border:none;"
+                        onclick="saveProduct()">
                         Simpan Data
                     </button>
                 </div>
@@ -224,4 +220,5 @@
     <script src="js/dashboard.js"></script>
     <script src="js/admin.js"></script>
 </body>
+
 </html>

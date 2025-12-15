@@ -1,35 +1,34 @@
-// ==========================================
-// FILE: js/keranjang.js
-// FUNGSI: Logic untuk halaman keranjang.html
-// ==========================================
+
+// FUNGSI Logic untuk halaman keranjang.html
+
 
 const SHIPPING_COST = 15000;
 let cart = [];
 
 // Event listener saat halaman dimuat
 document.addEventListener('DOMContentLoaded', async function() {
-    // 1. Update navbar sesuai status login
+    //  Update navbar sesuai status login
     await updateNavbarBasedOnSession();
     
-    // 2. Load cart dari localStorage
+    //  Load cart dari localStorage
     loadCart();
     
-    // 3. Setup event listener untuk tombol checkout
+    //  Setup event listener untuk tombol checkout
     setupCheckoutButton();
 });
 
 
-// ==========================================
-// FUNGSI 1: UPDATE NAVBAR SESUAI STATUS LOGIN
+
+// FUNGSI UPDATE NAVBAR SESUAI STATUS LOGIN
 // TANPA MENU HOME
-// ==========================================
+
 async function updateNavbarBasedOnSession() {
     try {
         const session = await checkSession();
         const navbarList = document.getElementById('navbarList');
         
         if (session) {
-            // === USER SUDAH LOGIN ===
+            // USER SUDAH LOGIN 
             const userName = session.user.user_metadata.full_name || 
                            session.user.email.split('@')[0];
             
@@ -51,7 +50,7 @@ async function updateNavbarBasedOnSession() {
                 </li>
             `;
         } else {
-            // === USER BELUM LOGIN ===
+            //  USER BELUM LOGIN 
             navbarList.innerHTML = `
                 <li class="nav-item">
                     <a class="nav-link" href="produk.html">Produk</a>
@@ -73,9 +72,7 @@ async function updateNavbarBasedOnSession() {
 }
 
 
-// ==========================================
-// FUNGSI 2: HANDLE LOGOUT
-// ==========================================
+// FUNGSI HANDLE LOGOUT
 async function handleLogout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
         await logout(); // Dari auth.js, redirect ke home.html
@@ -83,9 +80,7 @@ async function handleLogout() {
 }
 
 
-// ==========================================
 // FUNGSI 3: LOAD CART DARI LOCALSTORAGE
-// ==========================================
 function loadCart() {
     const savedCart = localStorage.getItem('kriukKitaCart');
     cart = savedCart ? JSON.parse(savedCart) : [];
@@ -101,10 +96,7 @@ function loadCart() {
     calculateTotal();
 }
 
-
-// ==========================================
 // FUNGSI 4: RENDER CART KE HTML
-// ==========================================
 function renderCart() {
     const container = document.getElementById('cartItems');
     const emptyEl = document.getElementById('emptyCart');
@@ -160,9 +152,7 @@ function renderCart() {
 }
 
 
-// ==========================================
-// FUNGSI 5: KALKULASI TOTAL
-// ==========================================
+// FUNGSI  KALKULASI TOTAL
 function calculateTotal() {
     const selectedItems = cart.filter(item => item.selected);
     const subtotal = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -182,10 +172,8 @@ function calculateTotal() {
     localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
 }
 
+// FUNGSI  TOGGLE ITEM
 
-// ==========================================
-// FUNGSI 6: TOGGLE ITEM
-// ==========================================
 function toggleItem(index) {
     cart[index].selected = !cart[index].selected;
     renderCart();
@@ -200,9 +188,7 @@ function toggleSelectAll() {
 }
 
 
-// ==========================================
-// FUNGSI 7: CHANGE QUANTITY
-// ==========================================
+// FUNGSI  CHANGE QUANTITY
 function changeQty(index, change) {
     const newQty = cart[index].quantity + change;
     if (newQty < 1) {
@@ -215,9 +201,8 @@ function changeQty(index, change) {
 }
 
 
-// ==========================================
-// FUNGSI 8: DELETE ITEM
-// ==========================================
+// FUNGSI DELETE ITEM
+
 function deleteItem(index) {
     if (confirm(`Hapus ${cart[index].name}?`)) {
         cart.splice(index, 1);
@@ -239,9 +224,7 @@ function deleteSelected() {
 }
 
 
-// ==========================================
-// FUNGSI 9: SETUP CHECKOUT BUTTON
-// ==========================================
+// FUNGSI  SETUP CHECKOUT BUTTON
 function setupCheckoutButton() {
     const btnCheckout = document.getElementById('btnCheckout');
     
@@ -251,9 +234,8 @@ function setupCheckoutButton() {
 }
 
 
-// ==========================================
-// FUNGSI 10: HANDLE CHECKOUT
-// ==========================================
+
+// FUNGSI  HANDLE CHECKOUT
 function handleCheckout() {
     // Ambil item yang dipilih
     const selectedItems = cart.filter(item => item.selected);
@@ -296,17 +278,15 @@ function handleCheckout() {
 }
 
 
-// ==========================================
-// FUNGSI 11: PROCESS CHECKOUT
-// ==========================================
+// FUNGSI  PROCESS CHECKOUT
 function processCheckout(selectedItems, total) {
     // Simulasi proses checkout
     
-    // 1. Hapus item yang sudah dicheckout dari cart
+    // Hapus item yang sudah dicheckout dari cart
     cart = cart.filter(item => !item.selected);
     localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
     
-    // 2. Tampilkan pesan sukses
+    //  Tampilkan pesan sukses
     alert(`
  CHECKOUT BERHASIL!
 
@@ -318,11 +298,5 @@ Kami akan menghubungi Anda segera.
 Terima kasih! 
     `);
     
-    // 3. Refresh halaman
     loadCart();
-    
-    // 4. Optional: Redirect ke halaman sukses atau produk
-    // setTimeout(() => {
-    //     window.location.href = 'produk.html';
-    // }, 2000);
 }

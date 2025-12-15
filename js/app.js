@@ -1,23 +1,24 @@
-// ==========================================
-// KRIUK KITA - APP.JS (GLOBAL)
-// Main application logic & Utilities
-// ==========================================
 
-// Update cart badge in navbar
+// UPDATE CART BADGE DI NAVBAR
+
 function updateCartBadge() {
+    // Ambil data keranjang dari localStorage
     const cart = JSON.parse(localStorage.getItem('kriukKitaCart') || '[]');
+
+    // Hitung total item 
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
     
-    // Find or create cart badge
+    // Cari semua link yang mengarah ke halaman keranjang
     const cartLinks = document.querySelectorAll('a[href*="keranjang"]');
+
     cartLinks.forEach(link => {
-        // Remove existing badge if any
+        // Hapus badge lama jika ada
         const existingBadge = link.querySelector('.cart-badge');
         if (existingBadge) {
             existingBadge.remove();
         }
         
-        // Add new badge if items > 0
+        // Tambahkan badge baru jika item > 0
         if (totalItems > 0) {
             const badge = document.createElement('span');
             badge.className = 'badge bg-danger rounded-pill ms-1';
@@ -28,18 +29,25 @@ function updateCartBadge() {
     });
 }
 
-// Get cart from localStorage
+// AMBIL & SIMPAN CART
+
+// Ambil cart dari localStorage
 function getCart() {
     return JSON.parse(localStorage.getItem('kriukKitaCart') || '[]');
 }
 
-// Save cart to localStorage
+// Simpan cart ke localStorage
 function saveCart(cart) {
     localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
+
+    // Update badge setelah cart berubah
     updateCartBadge();
 }
 
-// Format currency to IDR
+
+// FORMAT DATA (RUPIAH & ANGKA)
+
+// Format angka ke mata uang Rupiah
 function formatCurrency(amount) {
     return new Intl.NumberFormat('id-ID', {
         style: 'currency',
@@ -48,42 +56,55 @@ function formatCurrency(amount) {
     }).format(amount);
 }
 
-// Format number
+// Format angka biasa (1.000.000)
 function formatNumber(number) {
     return new Intl.NumberFormat('id-ID').format(number);
 }
 
-// Fetch products from JSON
+
+// ===============================
+// FETCH DATA PRODUK
+// ===============================
+
+// Ambil semua produk
 async function fetchProducts() {
     try {
-        // Check localStorage first (for CRUD updates)
+        // Cek localStorage dulu (jika ada hasil CRUD)
         const localProducts = localStorage.getItem('kriukKitaProducts');
         if (localProducts) {
             return JSON.parse(localProducts);
         }
         
-        // Fetch from JSON file
+        // Jika tidak ada, ambil dari file JSON
         const response = await fetch('../data/products.json');
         if (!response.ok) {
             throw new Error('Failed to fetch products');
         }
+
         const data = await response.json();
         return data.products;
+
     } catch (error) {
         console.error('Error fetching products:', error);
         return [];
     }
 }
 
-// Fetch product by ID
+// Ambil produk berdasarkan ID
 async function fetchProductById(id) {
     const products = await fetchProducts();
     return products.find(p => p.id === id);
 }
 
-// Search products
+
+// ===============================
+// SEARCH & SORT PRODUK
+// ===============================
+
+// Cari produk berdasarkan keyword
 function searchProducts(products, query) {
     const lowerQuery = query.toLowerCase();
+
     return products.filter(product => 
         product.name.toLowerCase().includes(lowerQuery) ||
         product.description.toLowerCase().includes(lowerQuery) ||
@@ -91,11 +112,11 @@ function searchProducts(products, query) {
     );
 }
 
-// Sort products
+// Urutkan produk
 function sortProducts(products, sortBy) {
-    const sorted = [...products];
+    const sorted = [...products]; // copy array agar data asli tidak berubah
     
-    switch(sortBy) {
+    switch (sortBy) {
         case 'price-asc':
             return sorted.sort((a, b) => a.price - b.price);
         case 'price-desc':
@@ -113,22 +134,37 @@ function sortProducts(products, sortBy) {
     }
 }
 
-// Add animation to elements
+
+// ===============================
+// ANIMASI ELEMENT
+// ===============================
+
+// Tambahkan animasi ke elemen
 function animateElement(element, animationName) {
     element.style.animation = `${animationName} 0.6s ease-out`;
+
+    // Hapus animasi setelah selesai
     element.addEventListener('animationend', () => {
         element.style.animation = '';
     }, { once: true });
 }
 
-// Show toast notification
+
+// ===============================
+// TOAST NOTIFICATION
+// ===============================
+
+// Tampilkan notifikasi toast
 function showToast(message, type = 'success') {
-    const toastContainer = document.getElementById('toastContainer') || createToastContainer();
+    // Cari container toast atau buat baru
+    const toastContainer =
+        document.getElementById('toastContainer') || createToastContainer();
     
     const toast = document.createElement('div');
     toast.className = `alert alert-${type} alert-dismissible fade show`;
     toast.role = 'alert';
     toast.style.minWidth = '250px';
+
     toast.innerHTML = `
         <strong>${type === 'success' ? '✅' : '❌'}</strong> ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -136,12 +172,13 @@ function showToast(message, type = 'success') {
     
     toastContainer.appendChild(toast);
     
+    // Toast otomatis hilang
     setTimeout(() => {
         toast.remove();
     }, 3000);
 }
 
-// Create toast container if not exists
+// Buat container toast jika belum ada
 function createToastContainer() {
     const container = document.createElement('div');
     container.id = 'toastContainer';
@@ -152,11 +189,17 @@ function createToastContainer() {
     container.style.display = 'flex';
     container.style.flexDirection = 'column';
     container.style.gap = '10px';
+
     document.body.appendChild(container);
     return container;
 }
 
-// Smooth scroll to element
+
+// ===============================
+// SCROLL & UTILITAS
+// ===============================
+
+// Scroll halus ke elemen tertentu
 function smoothScrollTo(elementId) {
     const element = document.getElementById(elementId);
     if (element) {
@@ -167,42 +210,52 @@ function smoothScrollTo(elementId) {
     }
 }
 
-// Debounce function
+// Debounce → mencegah fungsi dipanggil terlalu sering
 function debounce(func, wait) {
     let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
+
+    return function (...args) {
         clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        timeout = setTimeout(() => {
+            func(...args);
+        }, wait);
     };
 }
 
-// Validate email
+
+// ===============================
+// VALIDASI INPUT
+// ===============================
+
+// Validasi email
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-// Validate phone number (Indonesian)
+// Validasi nomor HP Indonesia
 function isValidPhone(phone) {
     const phoneRegex = /^(\+62|62|0)[0-9]{9,12}$/;
     return phoneRegex.test(phone.replace(/[\s-]/g, ''));
 }
 
-// Initialize app on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Update cart badge
+
+// ===============================
+// INISIALISASI SAAT HALAMAN DIMUAT
+// ===============================
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Update badge keranjang
     updateCartBadge();
     
-    // Add smooth scroll behavior for hash links
+    // Smooth scroll untuk anchor link (#)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             if (href !== '#' && href !== '') {
                 e.preventDefault();
+
                 const target = document.querySelector(href);
                 if (target) {
                     target.scrollIntoView({
@@ -214,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Animate elements on scroll (optional)
+    // Animasi muncul saat scroll (IntersectionObserver)
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -229,6 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }, observerOptions);
     
+    // Observe card & category
     document.querySelectorAll('.category-card, .card').forEach(el => {
         observer.observe(el);
     });

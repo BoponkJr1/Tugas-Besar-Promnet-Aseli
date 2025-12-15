@@ -1,7 +1,5 @@
-// ==========================================
-// FILE: script/dashboard.js
-// FUNGSI: Logic untuk halaman dashboard.html
-// ==========================================
+
+// FUNGSI Logic untuk halaman dashboard.html
 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('📊 Dashboard.js loaded');
@@ -10,9 +8,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     await verifyAccess();
 });
 
-// ==========================================
 // FUNGSI: VERIFY ACCESS (Double Protection)
-// ==========================================
 async function verifyAccess() {
     try {
         console.log('🔍 Verifying access...');
@@ -46,9 +42,7 @@ async function verifyAccess() {
     }
 }
 
-// ==========================================
-// FUNGSI: UPDATE WELCOME MESSAGE
-// ==========================================
+// FUNGSI UPDATE WELCOME MESSAGE
 function updateWelcomeMessage(user) {
     const welcomeMsg = document.getElementById('welcomeMsg');
     

@@ -1,7 +1,4 @@
-// ==========================================
-// FILE: js/home.js
-// FUNGSI: Logic untuk halaman home.html
-// ==========================================
+// FUNGSI Logic untuk halaman home.html
 
 // Event listener yang dipanggil saat halaman selesai dimuat
 document.addEventListener('DOMContentLoaded', async function() {
@@ -15,17 +12,17 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 
-// ==========================================
-// FUNGSI 1: UPDATE NAVBAR SESUAI STATUS LOGIN
+
+// FUNGSI UPDATE NAVBAR SESUAI STATUS LOGIN
 // Mengubah tampilan navbar berdasarkan apakah user sudah login atau belum
-// ==========================================
+
 async function updateNavbarBasedOnSession() {
     try {
-        console.log('🔍 Checking session...');
+        console.log('Checking session...');
         
         // Cek apakah fungsi checkSession tersedia
         if (typeof checkSession !== 'function') {
-            console.warn('⚠️ checkSession function not available yet, using default navbar');
+            console.warn('checkSession function not available yet, using default navbar');
             renderDefaultNavbar();
             return;
         }
@@ -39,20 +36,20 @@ async function updateNavbarBasedOnSession() {
         const navbarList = document.getElementById('navbarList');
         
         if (!navbarList) {
-            console.error('❌ Element navbarList tidak ditemukan!');
+            console.error(' Element navbarList tidak ditemukan!');
             return;
         }
         
         if (session && session.user) {
-            // === USER SUDAH LOGIN ===
-            console.log('✅ User logged in:', session.user.email);
+            //  USER SUDAH LOGIN 
+            console.log(' User logged in:', session.user.email);
             
-            // Ambil nama dari metadata user, jika tidak ada gunakan email
+            // Ambil nama dari ata user, jika tidak ada gunakan email
             const userName = session.user.user_metadata?.full_name || 
-                           session.user.email?.split('@')[0] || 
-                           'User';
+                        session.user.email?.split('@')[0] || 
+                        'User';
             
-            // Ubah navbar: Dashboard di posisi kanan (sebelum user info)
+            // Ubah navbar Dashboard di posisi kanan 
             navbarList.innerHTML = `
                 <li class="nav-item">
                     <a class="nav-link active" href="home.html">Tentang Kami</a>
@@ -79,7 +76,7 @@ async function updateNavbarBasedOnSession() {
                 </li>
             `;
         } else {
-            // === USER BELUM LOGIN ===
+            //USER BELUM LOGIN 
             console.log('ℹ️ User not logged in, showing default navbar');
             renderDefaultNavbar();
         }
@@ -91,14 +88,12 @@ async function updateNavbarBasedOnSession() {
 }
 
 
-// ==========================================
-// FUNGSI HELPER: RENDER DEFAULT NAVBAR
-// ==========================================
+// FUNGSI HELPER RENDER DEFAULT NAVBAR
 function renderDefaultNavbar() {
     const navbarList = document.getElementById('navbarList');
     
     if (!navbarList) {
-        console.error('❌ Element navbarList tidak ditemukan!');
+        console.error('Element navbarList tidak ditemukan!');
         return;
     }
     
@@ -121,14 +116,12 @@ function renderDefaultNavbar() {
         </li>
     `;
     
-    console.log('✅ Default navbar rendered');
+    console.log(' Default navbar rendered');
 }
 
 
-// ==========================================
-// FUNGSI 2: HANDLE LOGOUT
+// FUNGSI HANDLE LOGOUT
 // Dipanggil saat user klik tombol Logout
-// ==========================================
 async function handleLogout() {
     // Konfirmasi dulu sebelum logout
     if (confirm('Apakah Anda yakin ingin keluar?')) {
@@ -149,10 +142,9 @@ async function handleLogout() {
 }
 
 
-// ==========================================
-// FUNGSI 3: LOAD PRODUK UNGGULAN
+// FUNGSI LOAD PRODUK UNGGULAN
 // Mengambil 4 produk unggulan dari database dan menampilkannya
-// ==========================================
+
 async function loadFeaturedProducts() {
     // Ambil element container
     const container = document.getElementById('featuredProducts');
@@ -197,9 +189,9 @@ async function loadFeaturedProducts() {
                 <div class="col-md-6 col-lg-3">
                     <div class="product-card h-100">
                         <img src="${product.image}" 
-                             alt="${product.name}" 
-                             class="product-image" 
-                             onerror="this.src='https://placehold.co/400?text=No+Image'">
+                            alt="${product.name}" 
+                            class="product-image" 
+                            onerror="this.src='https://placehold.co/400?text=No+Image'">
                         
                         <div class="p-3 d-flex flex-column">
                             <h5 class="product-title text-truncate">${product.name}</h5>
@@ -237,8 +229,6 @@ async function loadFeaturedProducts() {
 }
 
 
-// ==========================================
 // EXPOSE FUNCTIONS TO GLOBAL SCOPE
-// ==========================================
 window.handleLogout = handleLogout;
 window.updateNavbarBasedOnSession = updateNavbarBasedOnSession;

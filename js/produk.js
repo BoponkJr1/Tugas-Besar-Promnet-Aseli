@@ -1,34 +1,29 @@
-// ==========================================
-// FILE: js/produk.js
-// FUNGSI: Logic untuk halaman produk.html
-// ==========================================
+
+// Fungsi Logic untuk halaman produk.html
+
 
 let allProducts = [];
 
 // Event listener saat halaman dimuat
-document.addEventListener('DOMContentLoaded', async function() {
-    // 1. Update navbar sesuai status login
+document.addEventListener('DOMContentLoaded', async function () {
+    // Update navbar sesuai status login
     await updateNavbarBasedOnSession();
-    
-    // 2. Load semua produk
+
+    // Load semua produk
     await fetchAllProducts();
 });
 
-
-// ==========================================
-// FUNGSI 1: UPDATE NAVBAR - TANPA MENU HOME
-// Food Court logo sebagai link ke home
-// ==========================================
+// FUNGSI UPDATE NAVBAR
 async function updateNavbarBasedOnSession() {
     try {
         const session = await checkSession();
         const navbarList = document.getElementById('navbarList');
-        
+
         if (session) {
-            // === USER SUDAH LOGIN ===
-            const userName = session.user.user_metadata.full_name || 
-                           session.user.email.split('@')[0];
-            
+            // KEtika user sudah login
+            const userName = session.user.user_metadata.full_name ||
+                session.user.email.split('@')[0];
+
             navbarList.innerHTML = `
                 <li class="nav-item">
                     <a class="nav-link active" href="produk.html">Produk</a>
@@ -47,7 +42,7 @@ async function updateNavbarBasedOnSession() {
                 </li>
             `;
         } else {
-            // === USER BELUM LOGIN ===
+            // Ketika user belum login
             navbarList.innerHTML = `
                 <li class="nav-item">
                     <a class="nav-link active" href="produk.html">Produk</a>
@@ -69,7 +64,7 @@ async function updateNavbarBasedOnSession() {
 }
 
 
-// FUNGSI HANDLE LOGOUT
+// Fungsi hanlde log out
 async function handleLogout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
         await logout();
@@ -77,11 +72,11 @@ async function handleLogout() {
 }
 
 
-// FUNGSI FETCH SEMUA PRODUK DARI DATABASE
+// Fungsi fetch semua produk di database
 async function fetchAllProducts() {
     const loading = document.getElementById('loadingIndicator');
     const grid = document.getElementById('productsGrid');
-    
+
     try {
         // Query ke database
         const { data, error } = await db
@@ -93,7 +88,7 @@ async function fetchAllProducts() {
 
         // Simpan ke variabel global
         allProducts = data;
-        
+
         // Render produk
         renderProducts(allProducts);
 
@@ -111,7 +106,7 @@ async function fetchAllProducts() {
 }
 
 
-// RENDER PRODUK KE HTML
+// RENDER PRODUK ke file html
 function renderProducts(productsToRender) {
     const grid = document.getElementById('productsGrid');
     const empty = document.getElementById('noProducts');
@@ -125,7 +120,7 @@ function renderProducts(productsToRender) {
 
     empty.style.display = 'none';
     grid.style.display = 'flex';
-    
+
     grid.innerHTML = productsToRender.map(product => `
         <div class="col-md-6 col-lg-3">
             <div class="product-card h-100">
@@ -157,9 +152,7 @@ function renderProducts(productsToRender) {
 }
 
 
-// ==========================================
-// FUNGSI 5: FILTER PRODUK BY KATEGORI
-// ==========================================
+// FUNGSI FILTER PRODUK BY KATEGORI
 function filterProducts(category, btnElement) {
     // Update tombol active
     document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -177,9 +170,8 @@ function filterProducts(category, btnElement) {
 }
 
 
-// ==========================================
-// FUNGSI 6: ADD TO CART
-// ==========================================
+
+// FUNGSI ADD TO CART
 function addToCart(id) {
     // Cari produk
     const product = allProducts.find(p => p.id === id);
@@ -213,5 +205,5 @@ function addToCart(id) {
     localStorage.setItem('kriukKitaCart', JSON.stringify(cart));
 
     // Alert feedback
-    alert(`✅ "${product.name}" berhasil ditambahkan ke keranjang!`);
+    alert(`"${product.name}" berhasil ditambahkan ke keranjang!`);
 }

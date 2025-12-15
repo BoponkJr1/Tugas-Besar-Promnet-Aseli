@@ -1,51 +1,47 @@
-// ==========================================
-// FILE: js/kontak.js
-// FUNGSI: Logic untuk halaman kontak.html
-// ==========================================
+
+// FUNGSi Logic untuk halaman kontak.html
+
 
 // Event listener saat halaman dimuat
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', async function () {
     console.log(' Kontak.js loaded');
-    
+
     // 1. Update navbar sesuai status login
     await updateNavbarBasedOnSession();
-    
+
     // 2. Setup form submit
     setupContactForm();
 });
 
 
-// ==========================================
-// FUNGSI 1: UPDATE NAVBAR SESUAI STATUS LOGIN
-// TANPA MENU HOME (Logo Food Court jadi link ke home)
-// ==========================================
+// FUNGSI  UPDATE NAVBAR SESUAI STATUS LOGIN
 async function updateNavbarBasedOnSession() {
     try {
-        console.log('🔍 Checking session...');
-        
+        console.log('Checking session...');
+
         // Cek apakah fungsi checkSession tersedia
         if (typeof checkSession !== 'function') {
             console.warn('checkSession function not available yet, using default navbar');
             renderDefaultNavbar();
             return;
         }
-        
+
         const session = await checkSession();
         const navbarList = document.getElementById('navbarList');
-        
+
         if (!navbarList) {
             console.error(' Element navbarList tidak ditemukan!');
             return;
         }
-        
+
         if (session && session.user) {
             // === USER SUDAH LOGIN ===
             console.log(' User logged in');
-            
-            const userName = session.user.user_metadata?.full_name || 
-                           session.user.email?.split('@')[0] || 
-                           'User';
-            
+
+            const userName = session.user.user_metadata?.full_name ||
+                session.user.email?.split('@')[0] ||
+                'User';
+
             navbarList.innerHTML = `
                 <li class="nav-item">
                     <a class="nav-link" href="produk.html">Produk</a>
@@ -64,7 +60,7 @@ async function updateNavbarBasedOnSession() {
                 </li>
             `;
         } else {
-            // === USER BELUM LOGIN ===
+            // USER BELUM LOGIN 
             console.log('ℹ User not logged in');
             renderDefaultNavbar();
         }
@@ -75,17 +71,15 @@ async function updateNavbarBasedOnSession() {
 }
 
 
-// ==========================================
 // FUNGSI HELPER: RENDER DEFAULT NAVBAR
-// ==========================================
 function renderDefaultNavbar() {
     const navbarList = document.getElementById('navbarList');
-    
+
     if (!navbarList) {
         console.error(' Element navbarList tidak ditemukan!');
         return;
     }
-    
+
     navbarList.innerHTML = `
         <li class="nav-item">
             <a class="nav-link" href="produk.html">Produk</a>
@@ -100,7 +94,7 @@ function renderDefaultNavbar() {
             <a class="btn btn-orange" href="../login.html">Login</a>
         </li>
     `;
-    
+
     console.log(' Default navbar rendered');
 }
 
@@ -130,15 +124,15 @@ async function handleLogout() {
 // ==========================================
 function setupContactForm() {
     const contactForm = document.getElementById('contactForm');
-    
+
     if (!contactForm) {
         console.error(' Contact form tidak ditemukan!');
         return;
     }
-    
-    contactForm.addEventListener('submit', function(e) {
+
+    contactForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         // Ambil nilai dari form
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
@@ -164,7 +158,7 @@ Terima kasih telah menghubungi Food Court Kita!
         `.trim();
 
         alert(confirmMessage);
-        
+
         // Reset form
         contactForm.reset();
     });

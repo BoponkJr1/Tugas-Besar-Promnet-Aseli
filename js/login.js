@@ -10,7 +10,7 @@
             }
         });
 
-        // --- HANDLE LOGIN ---
+        //  HANDLE LOGIN 
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -33,7 +33,7 @@
             }
         });
 
-        // --- HANDLE REGISTER ---
+        // HANDLE REGISTER 
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -58,7 +58,7 @@
             }
         });
 
-        // --- TOGGLE TAMPILAN ---
+        //  TOGGLE TAMPILAN 
         function showRegisterForm() {
             document.querySelector('.login-card:first-child').style.display = 'none';
             document.getElementById('registerCard').style.display = 'block';

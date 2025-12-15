@@ -1,7 +1,3 @@
-// ==========================================
-// FILE: js/auth.js
-// FUNGSI: Menangani autentikasi
-// ==========================================
 
 // KONFIGURASI SUPABASE
 const SUPABASE_URL = 'https://wqmkufqfdeixsvwqxwmm.supabase.co'; 
@@ -19,9 +15,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 console.log('Supabase client berhasil diinisialisasi');
 
 
-// ==========================================
 // FUNGSI 1: REGISTER USER BARU
-// ==========================================
 async function registerUser(name, email, password) {
     try {
         const { data, error } = await db.auth.signUp({
@@ -45,9 +39,9 @@ async function registerUser(name, email, password) {
 }
 
 
-// ==========================================
-// FUNGSI 2: LOGIN DENGAN EMAIL & PASSWORD
-// ==========================================
+
+// FUNGSI LOGIN DENGAN EMAIL & PASSWORD
+
 async function loginWithEmail(email, password) {
     try {
         const { data, error } = await db.auth.signInWithPassword({
@@ -67,9 +61,7 @@ async function loginWithEmail(email, password) {
 }
 
 
-// ==========================================
 // FUNGSI 3: CEK SESSION
-// ==========================================
 async function checkSession() {
     try {
         const { data: { session } } = await db.auth.getSession();
@@ -81,9 +73,7 @@ async function checkSession() {
 }
 
 
-// ==========================================
-// FUNGSI 4: LOGOUT - REDIRECT KE HOME
-// ==========================================
+// FUNGSI LOGOUT REDIRECT KE HOME
 async function logout() {
     try {
         const { error } = await db.auth.signOut();

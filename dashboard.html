@@ -12,10 +12,36 @@
     <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
-    <!-- CSS Custom -->
-    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="style/dashboard.css">
 </head>
 <body>
+    <script>
+          (async function() {
+            console.log('🔒 Checking authentication...');
+            
+            const session = await checkSession();
+            
+            if (!session) {
+                // Belum login, redirect ke login
+                console.warn('⚠️ Not logged in! Redirecting to login...');
+                alert('⚠️ Anda harus login terlebih dahulu!');
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            console.log('✅ User authenticated:', session.user.email);
+            
+            // Update welcome message dengan nama user
+            const userName = session.user.user_metadata?.full_name || 
+                           session.user.email?.split('@')[0] || 
+                           'Admin';
+            
+            const welcomeMsg = document.getElementById('welcomeMsg');
+            if (welcomeMsg) {
+                welcomeMsg.textContent = `Selamat datang, ${userName}.`;
+            }
+        })();
+    </script>
     <div class="container-fluid">
         <div class="row">
             <!-- SIDEBAR (Desktop Only) -->

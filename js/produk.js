@@ -69,9 +69,7 @@ async function updateNavbarBasedOnSession() {
 }
 
 
-// ==========================================
-// FUNGSI 2: HANDLE LOGOUT
-// ==========================================
+// FUNGSI HANDLE LOGOUT
 async function handleLogout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
         await logout();
@@ -79,9 +77,7 @@ async function handleLogout() {
 }
 
 
-// ==========================================
-// FUNGSI 3: FETCH SEMUA PRODUK DARI DATABASE
-// ==========================================
+// FUNGSI FETCH SEMUA PRODUK DARI DATABASE
 async function fetchAllProducts() {
     const loading = document.getElementById('loadingIndicator');
     const grid = document.getElementById('productsGrid');
@@ -115,9 +111,7 @@ async function fetchAllProducts() {
 }
 
 
-// ==========================================
-// FUNGSI 4: RENDER PRODUK KE HTML
-// ==========================================
+// RENDER PRODUK KE HTML
 function renderProducts(productsToRender) {
     const grid = document.getElementById('productsGrid');
     const empty = document.getElementById('noProducts');

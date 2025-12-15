@@ -84,3 +84,34 @@
     border-color: var(--orange-primary);
     background: var(--gray-light);
 }
+
+.google-login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    padding: 10px 14px;
+    font-weight: 500;
+    color: #444;
+
+    transition: all 0.2s ease;
+}
+
+.google-login-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.google-login-btn:hover {
+    background: #f7f7f7;
+    border-color: #ccc;
+}
+
+.google-login-btn:active {
+    transform: scale(0.98);
+}

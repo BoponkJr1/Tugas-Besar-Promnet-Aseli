@@ -138,11 +138,11 @@ async function handleLogout() {
                 // Panggil fungsi logout dari auth.js
                 await logout();
             } else {
-                console.error('❌ Fungsi logout tidak tersedia!');
+                console.error('Fungsi logout tidak tersedia!');
                 alert('Terjadi kesalahan saat logout');
             }
         } catch (error) {
-            console.error('❌ Error saat logout:', error);
+            console.error('Error saat logout:', error);
             alert('Terjadi kesalahan saat logout');
         }
     }

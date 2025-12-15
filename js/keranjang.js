@@ -260,7 +260,7 @@ function handleCheckout() {
     
     // Validasi: harus ada item yang dipilih
     if (selectedItems.length === 0) {
-        alert('⚠️ Pilih minimal 1 produk untuk checkout!');
+        alert(' Pilih minimal 1 produk untuk checkout!');
         return;
     }
     
@@ -270,23 +270,23 @@ function handleCheckout() {
     const total = subtotal + SHIPPING_COST;
     
     // Buat detail pesanan
-    let orderDetails = '🛒 DETAIL PESANAN\n';
+    let orderDetails = 'DETAIL PESANAN\n';
     orderDetails += '━━━━━━━━━━━━━━━━━━━━━\n\n';
     
     selectedItems.forEach(item => {
-        orderDetails += `📦 ${item.name}\n`;
+        orderDetails += ` ${item.name}\n`;
         orderDetails += `   ${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}\n`;
         orderDetails += `   Subtotal: Rp ${(item.price * item.quantity).toLocaleString('id-ID')}\n\n`;
     });
     
     orderDetails += '━━━━━━━━━━━━━━━━━━━━━\n';
-    orderDetails += `📋 Total Item: ${count}\n`;
-    orderDetails += `💰 Subtotal: Rp ${subtotal.toLocaleString('id-ID')}\n`;
-    orderDetails += `🚚 Ongkir: Rp ${SHIPPING_COST.toLocaleString('id-ID')}\n`;
+    orderDetails += `Total Item: ${count}\n`;
+    orderDetails += `Subtotal: Rp ${subtotal.toLocaleString('id-ID')}\n`;
+    orderDetails += `Ongkir: Rp ${SHIPPING_COST.toLocaleString('id-ID')}\n`;
     orderDetails += `━━━━━━━━━━━━━━━━━━━━━\n`;
-    orderDetails += `✨ TOTAL: Rp ${total.toLocaleString('id-ID')}\n\n`;
-    orderDetails += '✅ Terima kasih telah berbelanja di Kriuk Kita!\n';
-    orderDetails += '📱 Kami akan segera menghubungi Anda untuk konfirmasi.';
+    orderDetails += `TOTAL: Rp ${total.toLocaleString('id-ID')}\n\n`;
+    orderDetails += 'Terima kasih telah berbelanja di Kriuk Kita!\n';
+    orderDetails += 'Kami akan segera menghubungi Anda untuk konfirmasi.';
     
     // Tampilkan alert konfirmasi
     if (confirm(orderDetails + '\n\nLanjutkan checkout?')) {
@@ -308,14 +308,14 @@ function processCheckout(selectedItems, total) {
     
     // 2. Tampilkan pesan sukses
     alert(`
-✅ CHECKOUT BERHASIL!
+ CHECKOUT BERHASIL!
 
 Total Pembayaran: Rp ${total.toLocaleString('id-ID')}
 
 Pesanan Anda sedang diproses.
 Kami akan menghubungi Anda segera.
 
-Terima kasih! 🔥
+Terima kasih! 
     `);
     
     // 3. Refresh halaman

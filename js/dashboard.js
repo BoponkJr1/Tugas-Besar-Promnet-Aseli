@@ -2,7 +2,7 @@
 // FUNGSI Logic untuk halaman dashboard.html
 
 document.addEventListener('DOMContentLoaded', async function() {
-    console.log('📊 Dashboard.js loaded');
+    console.log('Dashboard.js loaded');
     
     // 1. Double-check authentication
     await verifyAccess();
@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', async function() {
 // FUNGSI: VERIFY ACCESS (Double Protection)
 async function verifyAccess() {
     try {
-        console.log('🔍 Verifying access...');
+        console.log('Verifying access...');
         
         // Cek apakah fungsi checkSession tersedia
         if (typeof checkSession !== 'function') {
-            console.error('❌ checkSession function not available!');
+            console.error(' checkSession function not available!');
             redirectToLogin();
             return;
         }
@@ -25,19 +25,19 @@ async function verifyAccess() {
         
         if (!session || !session.user) {
             // Belum login, redirect ke login
-            console.warn('⚠️ User not logged in, redirecting to login...');
+            console.warn(' User not logged in, redirecting to login...');
             redirectToLogin();
             return;
         }
         
         // User sudah login
-        console.log('✅ User authenticated:', session.user.email);
+        console.log('User authenticated:', session.user.email);
         
         // Update welcome message jika ada
         updateWelcomeMessage(session.user);
         
     } catch (error) {
-        console.error('❌ Error verifying access:', error);
+        console.error('Error verifying access:', error);
         redirectToLogin();
     }
 }
@@ -55,7 +55,7 @@ function updateWelcomeMessage(user) {
 }
 
 function redirectToLogin() {
-    console.log('➡️ Redirecting to login page...');
+    console.log('Redirecting to login page...');
     
     // Tambah timeout kecil agar console log bisa terbaca
     setTimeout(() => {

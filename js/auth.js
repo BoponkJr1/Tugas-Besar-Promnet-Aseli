@@ -15,7 +15,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_KEY);
 console.log('Supabase client berhasil diinisialisasi');
 
 
-// FUNGSI 1: REGISTER USER BARU
+// FUNGSI REGISTER USER BARU
 async function registerUser(name, email, password) {
     try {
         const { data, error } = await db.auth.signUp({
@@ -61,7 +61,7 @@ async function loginWithEmail(email, password) {
 }
 
 
-// FUNGSI 3: CEK SESSION
+// FUNGSI  CEK SESSION
 async function checkSession() {
     try {
         const { data: { session } } = await db.auth.getSession();

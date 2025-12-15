@@ -119,9 +119,8 @@ async function handleLogout() {
 }
 
 
-// ==========================================
-// FUNGSI 3: SETUP CONTACT FORM
-// ==========================================
+
+// FUNGSI SETUP CONTACT FORM
 function setupContactForm() {
     const contactForm = document.getElementById('contactForm');
 
@@ -147,7 +146,7 @@ function setupContactForm() {
 Terima kasih, ${name}!
 
 Detail pesan Anda:
-━━━━━━━━━━━━━━━━━━━━━
+======================
  Subjek: ${subject}
  Email: ${email}
  Telepon: ${phone}

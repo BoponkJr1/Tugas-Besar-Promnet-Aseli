@@ -30,7 +30,7 @@ async function updateNavbarBasedOnSession() {
         if (session) {
             // USER SUDAH LOGIN 
             const userName = session.user.user_metadata.full_name || 
-                           session.user.email.split('@')[0];
+                        session.user.email.split('@')[0];
             
             navbarList.innerHTML = `
                 <li class="nav-item">
@@ -80,7 +80,7 @@ async function handleLogout() {
 }
 
 
-// FUNGSI 3: LOAD CART DARI LOCALSTORAGE
+// FUNGSI  LOAD CART DARI LOCALSTORAGE
 function loadCart() {
     const savedCart = localStorage.getItem('kriukKitaCart');
     cart = savedCart ? JSON.parse(savedCart) : [];

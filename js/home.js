@@ -77,11 +77,11 @@ async function updateNavbarBasedOnSession() {
             `;
         } else {
             //USER BELUM LOGIN 
-            console.log('ℹ️ User not logged in, showing default navbar');
+            console.log('User not logged in, showing default navbar');
             renderDefaultNavbar();
         }
     } catch (error) {
-        console.error('❌ Error saat cek session:', error);
+        console.error(' Error saat cek session:', error);
         // Jika error, tampilkan navbar default
         renderDefaultNavbar();
     }

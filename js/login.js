@@ -3,7 +3,7 @@
             if (typeof checkSession === 'function') {
                 const session = await checkSession();
                 if (session) {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = '../dashboard.html';
                 }
             } else {
                 console.error("File auth.js belum dimuat dengan benar!");

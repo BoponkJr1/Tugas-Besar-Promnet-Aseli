@@ -5,6 +5,8 @@
 
 // Event listener saat halaman dimuat
 document.addEventListener('DOMContentLoaded', async function() {
+    console.log(' Kontak.js loaded');
+    
     // 1. Update navbar sesuai status login
     await updateNavbarBasedOnSession();
     
@@ -15,22 +17,36 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 // ==========================================
 // FUNGSI 1: UPDATE NAVBAR SESUAI STATUS LOGIN
-// SAMA SEPERTI DI HOME, PRODUK, KERANJANG
+// TANPA MENU HOME (Logo Food Court jadi link ke home)
 // ==========================================
 async function updateNavbarBasedOnSession() {
     try {
+        console.log('🔍 Checking session...');
+        
+        // Cek apakah fungsi checkSession tersedia
+        if (typeof checkSession !== 'function') {
+            console.warn('checkSession function not available yet, using default navbar');
+            renderDefaultNavbar();
+            return;
+        }
+        
         const session = await checkSession();
         const navbarList = document.getElementById('navbarList');
         
-        if (session) {
+        if (!navbarList) {
+            console.error(' Element navbarList tidak ditemukan!');
+            return;
+        }
+        
+        if (session && session.user) {
             // === USER SUDAH LOGIN ===
-            const userName = session.user.user_metadata.full_name || 
-                           session.user.email.split('@')[0];
+            console.log(' User logged in');
+            
+            const userName = session.user.user_metadata?.full_name || 
+                           session.user.email?.split('@')[0] || 
+                           'User';
             
             navbarList.innerHTML = `
-                <li class="nav-item">
-                    <a class="nav-link" href="../home.html">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="produk.html">Produk</a>
                 </li>
@@ -49,27 +65,43 @@ async function updateNavbarBasedOnSession() {
             `;
         } else {
             // === USER BELUM LOGIN ===
-            navbarList.innerHTML = `
-                <li class="nav-item">
-                    <a class="nav-link" href="../home.html">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="produk.html">Produk</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="keranjang.html">Keranjang</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="kontak.html">Kontak</a>
-                </li>
-                <li class="nav-item ms-lg-3">
-                    <a class="btn btn-orange" href="../login.html">Login</a>
-                </li>
-            `;
+            console.log('ℹ User not logged in');
+            renderDefaultNavbar();
         }
     } catch (error) {
-        console.error('Error update navbar:', error);
+        console.error(' Error update navbar:', error);
+        renderDefaultNavbar();
     }
+}
+
+
+// ==========================================
+// FUNGSI HELPER: RENDER DEFAULT NAVBAR
+// ==========================================
+function renderDefaultNavbar() {
+    const navbarList = document.getElementById('navbarList');
+    
+    if (!navbarList) {
+        console.error(' Element navbarList tidak ditemukan!');
+        return;
+    }
+    
+    navbarList.innerHTML = `
+        <li class="nav-item">
+            <a class="nav-link" href="produk.html">Produk</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="keranjang.html">Keranjang</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="kontak.html">Kontak</a>
+        </li>
+        <li class="nav-item ms-lg-3">
+            <a class="btn btn-orange" href="../login.html">Login</a>
+        </li>
+    `;
+    
+    console.log(' Default navbar rendered');
 }
 
 
@@ -78,7 +110,17 @@ async function updateNavbarBasedOnSession() {
 // ==========================================
 async function handleLogout() {
     if (confirm('Apakah Anda yakin ingin keluar?')) {
-        await logout(); // Dari auth.js, redirect ke home.html
+        try {
+            if (typeof logout === 'function') {
+                await logout(); // Dari auth.js, redirect ke home.html
+            } else {
+                console.error(' Fungsi logout tidak tersedia!');
+                alert('Terjadi kesalahan saat logout');
+            }
+        } catch (error) {
+            console.error(' Error saat logout:', error);
+            alert('Terjadi kesalahan saat logout');
+        }
     }
 }
 
@@ -88,6 +130,11 @@ async function handleLogout() {
 // ==========================================
 function setupContactForm() {
     const contactForm = document.getElementById('contactForm');
+    
+    if (!contactForm) {
+        console.error(' Contact form tidak ditemukan!');
+        return;
+    }
     
     contactForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -101,19 +148,19 @@ function setupContactForm() {
 
         // Tampilkan konfirmasi
         const confirmMessage = `
-📧 PESAN TERKIRIM!
+ PESAN TERKIRIM!
 
 Terima kasih, ${name}!
 
 Detail pesan Anda:
 ━━━━━━━━━━━━━━━━━━━━━
-📝 Subjek: ${subject}
-📧 Email: ${email}
-📱 Telepon: ${phone}
+ Subjek: ${subject}
+ Email: ${email}
+ Telepon: ${phone}
 
 Kami akan menghubungi Anda dalam 1x24 jam.
 
-Terima kasih telah menghubungi Kriuk Kita! 🔥
+Terima kasih telah menghubungi Food Court Kita! 
         `.trim();
 
         alert(confirmMessage);
@@ -122,3 +169,10 @@ Terima kasih telah menghubungi Kriuk Kita! 🔥
         contactForm.reset();
     });
 }
+
+
+// ==========================================
+// EXPOSE FUNCTIONS TO GLOBAL SCOPE
+// ==========================================
+window.handleLogout = handleLogout;
+window.updateNavbarBasedOnSession = updateNavbarBasedOnSession;

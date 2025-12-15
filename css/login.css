@@ -65,3 +65,22 @@
     border-color: var(--orange-primary);
     background: var(--gray-light);
 }
+
+.google-btn {
+    background: white;
+    border: 2px solid #ddd;
+    color: #555;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.google-btn:hover {
+    border-color: var(--orange-primary);
+    background: var(--gray-light);
+}
